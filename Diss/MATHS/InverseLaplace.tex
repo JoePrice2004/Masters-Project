@@ -1,0 +1,1251 @@
+\chapter{Inverse Laplace transform}\label{Sec3.2}
+\subsection{Region of Convergence}\label{4.0.1}
+
+The Laplace transform is defined for a function $f:[0,\infty) \rightarrow \mathbb{C}$ by $$\mathcal{L} \{F\}(s)= f(s)=\int^{\infty}_{0}e^{-st}F(t)dt, \ \ \ \ s\in\mathbb{C}.$$
+\\
+Upon first sight this is an improper integral depending on a complex parameter. However, its validity and usefulness depend entirely on a precise understanding of convergence. The structure of the region in which the integral exists is not incidental; it determines the analytic properties of the transform and ultimately makes inversion possible.
+\\
+Throughout, we will assume that $f$ is piecewise continuous on every finite interval $[0,T]$. This guarantees local integrability. All non-trivial issues arise from behaviour as $t\rightarrow \infty$.
+\\
+\subsubsection{Exponential Order and Absolute Convergence}
+Write $s=\sigma+i\omega$. Then $$e^{-st}=e^{-\sigma t}e^{-i\omega t}$$ and since $|e^{-i\omega t}|=1,$ $$|e^{-st}F(t)|=e^{-\sigma t}|F(t)|$$ Thus the convergence of the Laplace transform is governed entirely by the real component $\sigma$ in $s$. To control growth at infinity, we impose the standard condition of exponential order. A function $f$ is said to be of exponential order $\alpha \in \mathbb{R}$ if there exists constraints $M>0$ and $T\geq0$ such that $$|F(t)|\leq Me^{\alpha t} \ \ \ \ \text{for all} \ t\geq T. $$ 
+
+\begin{theorem}
+    If $f$ is piecewise continuous on finite intervals and of exponential order $\alpha$, then the Laplace transform converges absolutely for all $s$ satisfying $\Re(s)>\alpha$.
+    \\
+    Proof: Let $s=\sigma+i\omega$. Split the integral: $$\int^{\infty}_{0}=\int^{\infty}_{T}+\int^{T}_{0}$$The first integral is piecewise because $f$ is continuous on $[0,T]$. For $t\geq T$, $$|e^{-st}F(t)|\leq e^{-\sigma t}Me^{\alpha t}= Me^{-(\sigma-\alpha)t}$$ Thus $$\int^{\infty}_{T}|e^{-st}F(t)|dt\leq M\int^{\infty}_{T}e^{-(\sigma -\alpha)t}dt$$ The right-hand integral converges if and only if $\sigma-\alpha>0$. Hence absolute convergence holds whenever $\Re (s)>\alpha$.
+\end{theorem} \cite{YellowBook,ThousandPage,widder1941}
+
+\subsubsection{The Half-plane Convergence}
+The previous result shows convergence occurs to the right of some vertical line. We now show that this structure is intrinsic. 
+\\
+Suppose the integral converges at a point $s_{0}=\sigma_{0}+i\omega_{0}$. Then $$\int^{\infty}_{0}e^{-\sigma_{0}t}|F(t)|dt<\infty$$ Now let $s$ satisfy $\Re(s)=\sigma>\sigma_{0}$. Then $$e^{-\sigma t}|F(t)|\leq e^{-\sigma_{0}t}|F(t)|$$ Since the right hand side is integrable, so is the left hand side. Therefore convergence propagates to the right. This monotonicity implies that the region of convergence is always a vertical half plane of the form $$\Re(s)>\sigma_{0},$$ where $$\sigma_{0}=\inf{\{\sigma\in\mathbb{R}:f(s)  \  \text{converges for }\Re(s)>0\}}$$ This is called the Abscissa of Convergence. The half plane structure is what later permits vertical contour integration in inversion theory. \cite{TransformsTheory,YellowBook,RedBook}
+
+
+
+
+
+
+
+
+
+
+
+\subsection{Bromwich Integral}
+
+The inverse Laplace transform can be derived directly from the Fourier inversion
+formula, and this needs to be shown since it explains both the
+form of the inversion integral and why the contour of integration must be a
+vertical line in the complex plane. \cite{YellowBook, TransformsTheory}
+\\
+\\
+Recall that the Fourier transform of a function $g(t)$ and its inverse are given by
+\begin{equation}
+    \hat{g}(\omega) = \int_{-\infty}^{\infty} g(t)\, e^{-i\omega t}\, dt,
+    \qquad
+    g(t) = \frac{1}{2\pi} \int_{-\infty}^{\infty}
+    \hat{g}(\omega)\, e^{i\omega t}\, d\omega.
+\end{equation}
+The Laplace transform differs from the Fourier transform in two respects: first it is one-sided, running from $0$ to $\infty$ rather than over the whole real line, and it uses a general complex component $s = \sigma + i\omega$ in place of the purely imaginary $i\omega$. The way for recovering $F(t)$ from its Laplace transform $f(s)$ is to reduce the inversion to a Fourier inversion problem by introducing a damping factor that makes the one-sided integral behave like a full Fourier transform. \cite{YellowBook}
+\\
+\\
+Let $f$ be piecewise continuous on finite intervals and of exponential order
+$\alpha$, so that $|F(t)| \leq Me^{\alpha t}$ for large $t$, and suppose
+$F(t) = 0$ for $t < 0$. Fix any $\sigma > \alpha$ and define the damped function
+\begin{equation}
+    h(t) = F(t)\, e^{-\sigma t}.
+\end{equation}
+Since $\sigma > \alpha$, the function $h(t)$ decays exponentially as
+$t \to \infty$ and vanishes for $t < 0$, so $h \in L^{1}(\mathbb{R})$ and
+its Fourier transform exists. Computing it directly gives
+\begin{equation}
+    \hat{h}(\omega)
+    = \int_{-\infty}^{\infty} h(t)\, e^{-i\omega t}\, dt
+    = \int_{0}^{\infty} F(t)\, e^{-\sigma t} e^{-i\omega t}\, dt
+    = \int_{0}^{\infty} F(t)\, e^{-(\sigma + i\omega)t}\, dt
+    = f(\sigma + i\omega),
+\end{equation}
+where $f(s) = \mathcal{L}\{F\}(s)$ is the Laplace transform of $f$ evaluated
+at $s = \sigma + i\omega$. So the Fourier transform of the damped function $h$
+is precisely the Laplace transform of $f$ restricted to the vertical line
+$\mathfrak{R}(s) = \sigma$.
+\\
+\\
+Now applying the Fourier inversion formula to recover $h(t)$:
+\begin{equation}
+    h(t) = \frac{1}{2\pi} \int_{-\infty}^{\infty}
+    \hat{h}(\omega)\, e^{i\omega t}\, d\omega
+    = \frac{1}{2\pi} \int_{-\infty}^{\infty}
+    f(\sigma + i\omega)\, e^{i\omega t}\, d\omega.
+\end{equation}
+Since $h(t) = F(t)e^{-\sigma t}$, multiplying both sides by $e^{\sigma t}$ gives
+\begin{equation}
+    F(t) = \frac{1}{2\pi} \int_{-\infty}^{\infty}
+    F(\sigma + i\omega)\, e^{(\sigma + i\omega)t}\, d\omega.
+\end{equation}
+To write this as a contour integral in the variable $s$, substitute
+$s = \sigma + i\omega$, so $ds = i\,d\omega$ and $d\omega = ds/i$.
+As $\omega$ runs from $-\infty$ to $+\infty$, the variable $s$ traces the
+vertical line $\mathfrak{R}(s) = \sigma$ from $\sigma - i\infty$ to
+$\sigma + i\infty$. The integral therefore becomes
+\begin{equation}
+    F(t) = \frac{1}{2\pi} \int_{\sigma - i\infty}^{\sigma + i\infty}
+    f(s)\, e^{st}\, \frac{ds}{i}
+    = \frac{1}{2\pi i}
+    \int_{\sigma - i\infty}^{\sigma + i\infty} e^{st} f(s)\, ds.
+\end{equation}
+Writing $\sigma = \gamma$ to match the convention used throughout this thesis,
+this is the Bromwich integral
+\begin{equation}\label{eq:bromwich}
+    F(t) = \frac{1}{2\pi i}
+    \int_{\gamma - i\infty}^{\gamma + i\infty} e^{st} f(s)\, ds,
+    \qquad \gamma > \alpha,
+\end{equation}
+which holds for any $\gamma$ placed strictly to the right of the abscissa of
+convergence $\sigma_{0}$. \cite{RedBook, YellowBook, TransformsTheory}
+\\
+\\
+Three points follow directly from the derivation. First, the position of this
+line $\mathfrak{R}(s) = \gamma$ is not unique: any $\gamma > \sigma_{0}$
+gives the same result, since shifting the line left or right without crossing
+a singularity of $f(s)$ leaves the integral unchanged by Cauchy's theorem,
+as established in Section~\ref{Sec3.1}. Second, the formula requires
+$t > 0$, for the same reason the Fourier inversion requires $h \in L^{1}$:
+the damping factor $e^{-\sigma t}$ only suppresses growth for positive $t$.
+For $t < 0$ the inversion gives $F(t) = 0$, consistent with the assumption
+that $f$ vanishes on the negative real axis. Third, the derivation shows that
+the vertical line of integration is not an arbitrary choice but is forced on
+us by the structure of the Laplace transform itself.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\newpage
+\section{The Complex Inversion Formula}\label{Sec3.3}
+
+Let $f(s)=\mathcal{L}\{F(t)\}$, Then the inverse Laplace transform $\mathcal{L}^{-1}\{f(s)\}$ is given by 
+\begin{equation}\label{3.3.1}
+    F(t)=\frac{1}{2\pi i}\int^{\gamma+i\infty}_{\gamma-i\infty}e^{st}f(s)ds, \ \ \ \ t>0
+\end{equation}
+and $F(t)=0$ for $t<0$. This result is known as the complex inversion integral/ formula, or more commonly known as Bromwich's integral formula. It provides a direct method for recovering the original function $F(t)$ from its Laplace transform $f(s)$.
+\\
+The integral in \ref{3.3.1} is taken along a line $s=\gamma$ in the complex plane where $s=x+iy$. The real number $\gamma$ is chosen so the $s=\gamma$ lies strictly to the right of all the singularities of $f(s)$, including poles, branch points, and any essential singularities. Apart from this requirement, the exact value of $\gamma$ is otherwise arbitrary. \cite{TransformsTheory,RedBook,YellowBook,doetsch1974}
+
+\subsection{The Bromwich Contour}\label{4.1.1}
+
+\begin{wrapfigure}{l}{0.45\textwidth}
+\centering
+\begin{tikzpicture}[
+    scale=0.9,
+    thick,
+    >=Stealth,
+    contour/.style={
+        decoration={
+            markings,
+            mark=at position 0.20 with {\arrow[line width=1.2pt]{>}},
+            mark=at position 0.70 with {\arrow[line width=1.2pt]{>}}
+        },
+        postaction=decorate
+    },
+    seg/.style={
+        decoration={
+            markings,
+            mark=at position 0.5 with {\arrow[line width=1.2pt]{>}}
+        },
+        postaction=decorate
+    },
+]
+% Parameters
+\def\gam{1.0}   % x-position of Bromwich line (gamma)
+\def\R{2.0}     % radius of the arc
+% T = R*sin(angle) where angle = arccos(gamma/R)
+\pgfmathsetmacro{\T}{\R*sqrt(1 - (\gam/\R)^2)}  % y-intercept of Bromwich line with circle
+\pgfmathsetmacro{\angB}{asin(\T/\R)}             % angle of point B in degrees
+\pgfmathsetmacro{\angA}{-\angB}                   % angle of point A
+% --- Axes ---
+\draw[->] (-2.6, 0) -- (2.6, 0) node[right] {$x$};
+\draw[->] (0, -2.6) -- (0, 2.6) node[above] {$y$};
+% --- Large arc from B, going counter-clockwise to A ---
+% B is at angle angB (upper right), arc sweeps CCW (left, around) to A (lower right)
+\draw[line width=1.5pt, contour]
+    ({\gam}, {\T})
+    arc[start angle={\angB}, end angle={360+\angA}, radius=\R];
+% --- Vertical Bromwich segment from A up to B (upward arrow) ---
+\draw[line width=1.5pt, seg]
+    ({\gam}, {-\T}) -- ({\gam}, {\T});
+% --- Radius line from O to B ---
+\draw[line width=1.0pt] (0,0) -- ({\gam}, {\T});
+% --- Point labels ---
+% B = gamma + iT (upper right)
+\filldraw ({\gam}, {\T}) circle (1.5pt);
+\node[above right] at ({\gam}, {\T}) {$Br$};
+\node[right] at ({\gam+0.08}, {\T-0.25}) {$\gamma + iT$};
+% A = gamma - iT (lower right)
+\filldraw ({\gam}, {-\T}) circle (1.5pt);
+\node[below right] at ({\gam}, {-\T}) {$A$};
+\node[right] at ({\gam+0.08}, {-\T+0.2}) {$\gamma - iT$};
+% C1 = top of arc (on y-axis)
+\filldraw (0, \R) circle (1.5pt);
+\node[above right] at (0, \R) {$C_1$};
+% C2 = leftmost point of arc
+\filldraw (-\R, 0) circle (1.5pt);
+\node[above left] at (-\R, 0) {$C_2$};
+% C3 = bottom of arc (on y-axis)
+\filldraw (0, -\R) circle (1.5pt);
+\node[below right] at (0, -\R) {$C_3$};
+% O = origin
+\node[below left] at (0,0) {$O$};
+% gamma label on x-axis
+\draw ({\gam}, 0.06) -- ({\gam}, -0.06);
+\node[below right] at ({\gam}, 0) {$\gamma$};
+% R label (midpoint of radius line)
+\node at ({0.55*\gam + 0.15}, {0.55*\T - 0.15}) {$R$};
+\end{tikzpicture}
+\caption{The Bromwich contour $C$.}
+\label{fig:bromwich}
+\end{wrapfigure}
+
+In practice, the integral in \ref{3.3.1} is not evaluated directly. Instead, we consider the corresponding contour integral
+\begin{equation}\label{3.3.2}
+    \frac{1}{2\pi i}\oint_{\Gamma}e^{st}f(s)ds
+\end{equation}
+Where $C$ is a suitably chosen contour. This contour is often called the Bromwich contour. It consists of two main parts: a vertical line (The Bromwich line) and a large semicircular arc of radius $R$, centred at the origin $O$. If we denote the circles arc by $C_R$, it follows from \ref{3.3.1} that since $T=\sqrt{R^{2}-\gamma^{2}}$. This allows us to express the inversion formula as 
+\begin{equation}\label{3.3.3}
+    F(t)= \lim_{R\rightarrow\infty}\frac{1}{2\pi i}\int^{\gamma+iT}_{\gamma-iT}e^{st}f(s)ds 
+\end{equation}
+Which also can therefore be written as
+$$=\lim_{R\rightarrow\infty}\left\{\frac{1}{2\pi i}\oint_{\Gamma}e^{st}f(s)ds-\frac{1}{2\pi i}\int_{C_R}e^{st}f(s)ds\right\}$$
+So the key idea is that we relate the original Bromwich integral to a closed contour integral, subtracting off the contributions from the semicircular arc. \cite{TransformsTheory}
+
+\subsection{Use of Residue Theorem in Finding the Inverse Laplace Transform}\label{4.1.2}
+Now suppose that all of the singularities of $f(s)$ are poles all of which lie to the left of the line $s=\gamma$ for some real constant $\gamma$. In addition suppose further that the integral around $C_R$ in figure \ref{fig:bromwich} approaches zero as $R\rightarrow\infty$. Then by the residue theorem we can write \ref{3.3.3} as 
+\begin{equation}\label{3.3.4}
+    F(t)=\text{sum of residues of }e^{st}f(s) \text{ at poles of }f(s) 
+\end{equation}
+or equivalently
+\begin{equation}
+    =\sum\text{residues of }e^{st}f(s)\text{ at poles of }f(s)
+\end{equation}
+Where the sum is taken over all poles enclosed by the contour.
+This is a key computational step; once the contour is closed and the arc contributions vanish, the inverse Laplace transform reduces to calculating the residues. \cite{RedBook,TransformsTheory}
+
+\subsection{Condition for the Integral Around $\gamma$ to Approach Zero}
+The validity of the result \ref{3.3.4} depends whether the integral around $\Gamma$ in \ref{3.3.3} approaches zero as $R\rightarrow\infty$. A condition under which this assumption is correct is seen in the following as stated in \cite{TransformsTheory,WatsonLaplace}.
+\begin{theorem}\label{Theorem:3.3.1}
+    If there exists constants $M>0, \ k>0$ such that on $\Gamma$ where $s=Re^{i\theta}$, 
+    \begin{equation}\label{3..5}
+        |f(s)|<\frac{M}{R^{k}}
+    \end{equation}
+    then the integral around $\Gamma$ of $e^{st}f(s)$ approaches zero as $R\rightarrow\infty$, i.e., 
+    \begin{equation}\label{3..6}
+        \lim_{R\rightarrow\infty}\frac{1}{2\pi i}\oint_{C_R}e^{st}f(s)ds=0
+    \end{equation}
+\end{theorem}
+The condition \ref{3..5} always holds if $f(s)=P(s)/Q(s)$ where $P(s)$ and $Q(s)$ are polynomials and the degree of $P(s)$ is less than the degree of $Q(s)$. The result is valid even if $f(s)$ has other singularities besides poles. this can also be shown through both the estimation lemma and Jordan's lemma. \cite{ComplexAnalysis, TransformsTheory,RedBook}
+
+\newpage
+\subsection{Modification in Case of Branch Points}\label{4.1.4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+When $f(s)$ contains branch points, the method used for inverting the Laplace transform requires a more substantial modification to the contour than in the finite pole case discussed above. The branch point means that $f(s)$ is not single-valued in the complex plane, so before any contour integration can be carried out a branch cut must be introduced to make the integrand single-valued on the region of integration.
+\\
+\\
+In the simplest case, where $f(s)$ has a single branch point at $s = 0$, for example $\frac{e^{-a\sqrt{s}}}{s}$ (as shown in the example below), the branch cut is taken along the negative real axis. The Bromwich contour is then replaced by the keyhole contour shown in figure \ref{fig:branch}, which is made up of the Bromwich line $AB$, two large arcs $BC_3C_4$ and $C_8C_9A$ of radius $R$, two straight segments $C_4C_5$ and $C_7C_8$ running just above and just below the branch cut respectively, and a small circle $C_5C_6C_7$ of radius $\epsilon$ encircling the branch point at the origin. The branch cut is then the segment of the negative real axis between the small circle and the large arc.
+
+\begin{wrapfigure}{l}{0.48\textwidth}
+\centering
+\begin{tikzpicture}[
+    scale=1.1,
+    >=Stealth,
+    arr/.style={
+        decoration={markings, mark=at position 0.5 with {\arrow[line width=1.2pt]{>}}},
+        postaction=decorate
+    },
+    arrtwo/.style={
+        decoration={
+            markings,
+            mark=at position 0.25 with {\arrow[line width=1.2pt]{>}},
+            mark=at position 0.75 with {\arrow[line width=1.2pt]{>}}
+        },
+        postaction=decorate
+    },
+]
+% Axes
+\draw[->, line width=0.7pt] (-2.65,0) -- (2.65,0) node[right] {$x$};
+\draw[->, line width=0.7pt] (0,-2.65) -- (0,2.65) node[above] {$y$};
+%% 1) Bromwich segment: A -> B  (upward)
+\draw[line width=1.5pt, arr]
+    (1.1,-1.913) -- (1.1,1.913);
+%% 2) Large arc: B (60.1 deg) CCW to C3 (176.6 deg)
+\draw[line width=1.5pt, arr]
+    (1.1,1.913) arc[start angle=60.1, end angle=176.6, radius=2.2];
+%% 3) Upper branch-cut line: C4 -> C5  (rightward at y=+0.13)
+\draw[line width=1.5pt, arr]
+    (-2.196, 0.13) -- (-0.431, 0.13);
+\draw[line width=1.5pt, arrtwo]
+    (-0.431, 0.13) arc[start angle=163.1, end angle=-163.1, radius=0.45];
+%% 5) Lower branch-cut line: C7 -> C8  (leftward at y=-0.13)
+\draw[line width=1.5pt, arr]
+    (-0.431,-0.13) -- (-2.196,-0.13);
+%% 6) Large arc: C8 (183.4 deg) CCW to A (-60.1 deg)
+\draw[line width=1.5pt, arr]
+    (-2.196,-0.13) arc[start angle=-176.6, end angle=-60.1, radius=2.2];
+%% -------------------------------------------------------
+%% EPSILON line from O to right of small circle
+%% -------------------------------------------------------
+\draw[line width=1.0pt] (0,0) -- (0.45,0);
+\node[above, font=\small] at (0.23, 0.06) {$\epsilon$};
+%% R line from O toward lower-left
+\draw[line width=1.0pt] (0,0) -- (-1.41, -1.70);
+\node[font=\normalsize] at (-0.55, -1.10) {$R$};
+% B  (upper right)
+\filldraw (1.1,1.913) circle (1.5pt);
+\node[right, font=\small] at (1.15,1.913) {$B \quad \gamma+iT$};
+% A  (lower right)
+\filldraw (1.1,-1.913) circle (1.5pt);
+\node[right, font=\small] at (1.15,-1.913) {$A \quad \gamma-iT$};
+% C3  (top of large arc)
+\filldraw (0,2.2) circle (1.5pt);
+\node[above right, font=\small] at (0,2.2) {$C_3$};
+% C9  (bottom of large arc)
+\filldraw (0,-2.2) circle (1.5pt);
+\node[below right, font=\small] at (0,-2.2) {$C_9$};
+% C4  (upper left, on large arc near branch cut)
+\filldraw (-2.196,0.13) circle (1.2pt);
+\node[above left, font=\small] at (-2.196,0.13) {$C_4$};
+% C8  (lower left, on large arc near branch cut)
+\filldraw (-2.196,-0.13) circle (1.2pt);
+\node[below left, font=\small] at (-2.196,-0.13) {$C_8$};
+% C5  (left of small circle, upper)
+\filldraw (-0.431,0.13) circle (1.2pt);
+\node[above left, font=\small] at (-0.431,0.13) {$C_5$};
+% C7  (left of small circle, lower)
+\filldraw (-0.431,-0.13) circle (1.2pt);
+\node[below left, font=\small] at (-0.431,-0.13) {$C_7$};
+% C6  (right of small circle, on x-axis)
+\filldraw (0.45,0) circle (1.2pt);
+\node[above right, font=\small] at (0.45,0.04) {$C_6$};
+% O  (origin)
+\filldraw (0,0) circle (1.5pt);
+\node[below, font=\small] at (0,-0.08) {$O$};
+% gamma tick
+\draw (1.1,0.07) -- (1.1,-0.07);
+\node[below right, font=\small] at (1.1,-0.1) {$\gamma$};
+\end{tikzpicture}
+\caption{Keyhole contour with branch point at $O$; branch cut along negative real axis.}
+\label{fig:branch}
+\end{wrapfigure}
+
+
+The reason both a large arc and a small circle are required is that the branch point must be excluded from the region of integration completely. The large arc closes the contour at infinity as before, while on the other hand the small circle prevents the contour from passing through the branch point itself. The two straight segments $C_4C_5$ and $C_7C_8$ run on opposite sides of the branch cut, and it is precisely the difference in the value of $\sqrt{s}$ on these two sides that produces a non-trivial contribution to the integral. On $C_4C_5$ above the cut, we have $\sqrt{s} = \sqrt{x}e^{i\pi/2} = i\sqrt{x}$, while on $C_7C_8$ below the cut, we have $\sqrt{s} = \sqrt{x}e^{-i\pi/2} = -i\sqrt{x}$. The two contributions therefore do not cancel but instead combine to give a factor of $2i\sin(a\sqrt{x})$, which produces the real integral appearing in the final answer. \cite{RedBook,carrier2005}
+\\
+\\
+As $R \to \infty$ and $\epsilon \to 0$, the integrals along the two large arcs vanish by the same argument as in the finite pole case and the integral along the small circle vanishes provided that the integrand does not grow too rapidly near the branch point. If the integrand has no poles inside the keyhole contour then by Cauchy's theorem the total contour integral is equal to zero. Which means the Bromwich integral can be expressed entirely in terms of the integrals along $C_4C_5$ and $C_7C_8$. If there are poles inside the contour, the residue theorem must be applied and the residues are added to the contributions from the branch cut integrals. When $f(s)$ has more than one branch point the construction must be extended accordingly. If there are two branch points, for example at $s = 0$ and $s = -a^2$, then two separate branch cuts must be introduced, each with its own pair of straight segments and encircling small circle. The keyhole contour is then replaced by a more elaborate contour that winds around both cuts. Or if the branch points are simple enough you could instead make just one branch cut that is entirely enclosed by the contour that will exclude both branch points (this is shown in figure \ref{fig:branch2}). The same principles apply: the integrand must be made single-valued by the cuts, the contour must exclude all branch points, and the contributions from the two sides of each cut must be evaluated separately and then combined. The final answer in such cases is typically expressed as a sum of two real integrals, one for each branch cut, plus any residue contributions from poles enclosed by the contour. In all cases the key distinction from the pole-only situation is that the branch cut integrals along the straight segments produce an integral representation of the answer rather than a discrete sum of residues. This is why inverse transforms involving branch points tend to produce integral expressions or combinations of integrals and series, rather than the purely series-form answers seen in the infinitely-many-poles case.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\subsubsection{Example:}
+
+Find $\mathcal{L}^{-1}\left\{\frac{e^{-a\sqrt{s}}}{s}\right\}$ by use of the complex inversion formula. As seen briefly in 'Laplace Transforms' \cite{TransformsTheory} but expanded below. 
+\\
+\\
+By the complex inversion formula, the required inverse Laplace transform is given by 
+\begin{equation}\label{Eq:}
+    F(t)=\frac{1}{2\pi i}\int^{\gamma+i\infty}_{\gamma-i\infty}\frac{e^{st-a\sqrt{s}}}{s}ds
+\end{equation}
+Since $s=0$ can be seen to be a branch point, we can show the integral of the contour as a sum of the integrals of each component.
+\begin{align*}
+    \frac{1}{2\pi i}\oint_{\Gamma}\frac{e^{st-a\sqrt{s}}}{s}ds=\frac{1}{2\pi i}\int_{AB}\frac{e^{st-a\sqrt{s}}}{s}ds+\frac{1}{2\pi i}\int_{BC_3C_4}\frac{e^{st-a\sqrt{s}}}{s}ds+
+    \frac{1}{2\pi i}\int_{C_4C_5}\frac{e^{st-a\sqrt{s}}}{s}ds+\\ \frac{1}{2\pi i}\int_{C_5C_6C_7}\frac{e^{st-a\sqrt{s}}}{s}ds+\frac{1}{2\pi i}\int_{C_7C_8}\frac{e^{st-a\sqrt{s}}}{s}ds+\frac{1}{2\pi i}\int_{C_8C_9A}\frac{e^{st-a\sqrt{s}}}{s}ds
+\end{align*}
+\\
+Where $\Gamma$ is the contour shown in figure \ref{fig:branch} which consists of the Bromwich line $AB$ which as seen earlier is the line  $s=\gamma$, the arcs $BC_3C_4$ and $C_8C_9A$ of a circle of radius $R$ and centre at origin $O$, and the arc $C_5C_6C_7$ of a circle of radius $\epsilon$ with centre at $O$. 
+Since the only singularity $s=0$ of the integrand is not inside the contour $\Gamma$, the integral of the left is equal to zero by Cauchy's theorem. Next is to show that the large arcs and small circle vanish leaving just the values of the Bromwich line and branch cut contributions.
+\\
+\\
+To show that the integrals along the large arcs $BC_3C_4$ and $C_8C_9A$ vanish,
+we use Jordan's lemma directly. Writing $f(s) = e^{-a\sqrt{s}}/s$, we need to
+verify that $|f(s)| \to 0$ uniformly as $|s| \to \infty$ in the left half-plane.
+\\
+On the arc $|s| = R$, so
+\begin{equation}
+    \frac{1}{|s|} = \frac{1}{R}
+\end{equation}
+For the factor $e^{-a\sqrt{s}}$, write $s = Re^{i\theta}$ so that
+$\sqrt{s} = \sqrt{R}\,e^{i\theta/2}$, giving
+$\mathrm{Re}(\sqrt{s}) = \sqrt{R}\cos(\theta/2)$. On the arcs $BC_3C_4$ and
+$C_8C_9A$ the angle $\theta/2$ lies in a range where $\cos(\theta/2) \geq 0$,
+so with $a > 0$
+\begin{equation}
+    |e^{-a\sqrt{s}}| = e^{-a\,\mathrm{Re}(\sqrt{s})}
+    = e^{-a\sqrt{R}\cos(\theta/2)} \leq 1
+\end{equation}
+Combining these two bounds
+\begin{equation}
+    |f(s)| = \left|\frac{e^{-a\sqrt{s}}}{s}\right| \leq \frac{1}{R} \to 0
+    \quad \text{uniformly as } R \to \infty
+\end{equation}
+Since $|f(s)| \to 0$ uniformly in the left half-plane and $t > 0$, Jordan's
+lemma then gives
+\begin{equation}
+    \int_{BC_3C_4} \frac{e^{st-a\sqrt{s}}}{s}\,ds \to 0
+    \quad \text{and} \quad
+    \int_{C_8C_9A} \frac{e^{st-a\sqrt{s}}}{s}\,ds \to 0
+    \quad \text{as } R \to \infty
+\end{equation}
+
+As the large arcs have been shown to disappear we can then write the equation as
+\\
+\begin{align}
+    F(t)&=\lim_{_{R\rightarrow\infty,\epsilon\rightarrow0}}\frac{1}{2\pi i}\int_{AB}\frac{e^{st-a\sqrt{s}}}{s}ds=\frac{1}{2\pi i}\int^{\gamma+i\infty}_{\gamma-i\infty}\frac{e^{st-a\sqrt{s}}}{s}ds \nonumber \\
+    \nonumber\\
+        &=-\lim_{R\rightarrow\infty,\epsilon\rightarrow0}\frac{1}{2\pi i}\left\{\int_{C_4C_5}\frac{e^{st-a\sqrt{s}}}{s}ds+\int_{C_5C_6C_7}\frac{e^{st-a\sqrt{s}}}{s}ds+\int_{C_7C_8}\frac{e^{st-a\sqrt{s}}}{s}ds\right\} \label{Eq:.}
+\end{align}
+\\
+Then for $C_4C_5$, we can say that $s=xe^{\pi i}$, $\sqrt{s}=\sqrt{x}e^{\pi i/2}$ and as $s$ goes from $-R$ to $-\epsilon$, $x$ goes from $R$ to $\epsilon$. Hence we have 
+$$\int_{C_4C_5}\frac{e^{st-a\sqrt{s}}}{s}ds=\int^{-\epsilon}_{-R}\frac{e^{st-a\sqrt{s}}}{s}ds=\int^{\epsilon}_{R}\frac{e^{-xt-ai\sqrt{x}}}{s}ds$$
+Similarly along the other side of the branch cut $C_7C_8$, $s=xe^{-\pi i}$, $\sqrt{s}=\sqrt{x}e^{-\pi i/2}=-i\sqrt{x}$ and as $s$ goes from $-\epsilon$ to $-R$, $x$ goes from $\epsilon$ to $R$. Then $$\int_{C_7C_8}\frac{e^{st-a\sqrt{s}}}{s}ds=\int^{-R}_{-\epsilon}\frac{e^{st-a\sqrt{s}}}{s}ds=\int^{R}_{\epsilon}\frac{e^{-xt-ai\sqrt{x}}}{s}ds$$
+For the small circle $C_5C_6C_7$, we can say that $s=\epsilon e^{i\theta}$, so  $$\int_{C_5C_6C_7}\frac{e^{st-a\sqrt{s}}}{s}ds=\int^{\pi}_{-\pi}\frac{e^{\epsilon e^{i\theta}t-a\sqrt{\epsilon}e^{i\theta/2}}}{\epsilon e^{i\theta}}i\epsilon e^{i\theta}d\theta$$
+which simplifies to
+$$=i\int^{\pi}_{-\pi}e^{\epsilon e^{i\theta}t-a\sqrt{\epsilon}e^{i\theta/2}}d\theta$$
+thus after combining all the individual parts of the contour shown above along with showing the large arcs go to $0$, equation \ref{Eq:.} becomes 
+
+\begin{align*}
+    F(t) &=-\lim_{R\rightarrow\infty,\epsilon\rightarrow0}\frac{1}{2\pi i}\left\{\int^{\epsilon}_{R}\frac{e^{-xt-ai\sqrt{x}}}{s}ds+\int^{R}_{\epsilon}\frac{e^{-xt-ai\sqrt{x}}}{s}ds+i\int^{\pi}_{-\pi}e^{\epsilon e^{i\theta}t-a\sqrt{\epsilon}e^{i\theta/2}}d\theta\right\} \\
+    \\
+    &=-\lim_{R\rightarrow\infty,\epsilon\rightarrow0}\frac{1}{2\pi i}\left\{\int^{R}_{\epsilon}\frac{e^{-xt}(e^{ai\sqrt{x}}-e^{-ai\sqrt{x}})}{x}dx+i\int^{\pi}_{-\pi}e^{\epsilon e^{i\theta}t-a\sqrt{\epsilon}e^{i\theta/2}}d\theta\right\} \\
+    \\
+    &=-\lim_{R\rightarrow\infty,\epsilon\rightarrow0}\frac{1}{2\pi i}\left\{\int^{R}_{\epsilon}\frac{e^{-xt}\sin{a\sqrt{x}}}{x}dx+i\int^{\pi}_{-\pi}e^{\epsilon e^{i\theta}t-a\sqrt{\epsilon}e^{i\theta/2}}d\theta\right\}
+\end{align*}
+\\
+and since the limit can be taken underneath the integral sign, we get 
+$$\lim_{\epsilon\rightarrow0}\int^{-\pi}_{\pi}e^{\epsilon e^{i\theta}t-a\sqrt{\epsilon}e^{i\theta/2}}d\theta=\int^{-\pi}_{\pi}1d\theta=-2\pi$$
+\\
+which makes the equal to 
+$$=-\lim_{R\rightarrow\infty,\epsilon\rightarrow0}\frac{1}{2\pi i}\left\{\int^{R}_{\epsilon}\frac{e^{-xt}\sin{a\sqrt{x}}}{x}dx-2\pi\right\}$$
+and then finally once the $-2\pi$ is taken outside the brackets the equation simplifies to
+\begin{equation}\label{Eq...}
+    F(t)=1-\frac{1}{\pi}\int^{\infty}_{0}\frac{e^{-xt}\sin{a\sqrt{x}}}{x}dx
+\end{equation}
+
+
+\subsection{Case of Infinitely Many Singularities}\label{sec3.1.5}
+
+The methods shown previously only contain a finite number of poles and or singularities, while the method is largely similar to a finite number of poles there are a few key differences with the required method.
+\\
+\\
+The method of inverting the Laplace transform via the complex inversion formula remains the same in its essential structure whether the transform has finitely or infinitely many singularities, however the two cases differ in how the contour is chosen and how the residues are summed.
+\\
+\\
+In the simple case, where $f(s)$ has only a finitely many poles all lying to the left of the Bromwich line $s = \gamma$, we close the contour with a single large semicircular arc of radius $R$ to the left. Provided the conditions of Theorem \ref{Theorem:3.3.1} are satisfied, the integral along this arc vanishes as $R \to \infty$, and by the residue theorem the inverse transform is simply the sum of residues at each pole enclosed by the contour. Since there are only finitely many poles, this sum is finite and the computation is straightforward.
+\\
+\begin{wrapfigure}{l}{0.48\textwidth}
+\centering
+\begin{tikzpicture}[
+    scale=1.1,
+    >=Stealth,
+    arr/.style={
+        decoration={markings, mark=at position 0.5 with {\arrow[line width=1.2pt]{>}}},
+        postaction=decorate
+    },
+]
+% Axes
+\draw[->, line width=0.7pt] (-3.4,0) -- (2.65,0) node[right] {$x$};
+\draw[->, line width=0.7pt] (0,-2.65) -- (0,2.65) node[above] {$y$};
+
+%% Bromwich segment: A -> B (upward)
+\draw[line width=1.5pt, arr]
+    (0.7,-2.2) -- (0.7,2.2);
+
+%% Large arc: B CCW to A
+\draw[line width=1.5pt, arr]
+    (0.7,2.2) arc[start angle=72.5, end angle=287.5, radius=2.3];
+
+%% Pole at s=0
+\node[font=\normalsize] at (0,0) {$\times$};
+\node[above left, font=\small] at (0,0.05) {$O$};
+
+%% Pole at s = -pi^2/4 ~ -2.47, scaled to -0.85 for diagram
+\node[font=\normalsize] at (-0.85,0) {$\times$};
+\node[below, font=\small] at (-0.85,-0.18) {$-\frac{\pi^2}{4}$};
+
+%% Pole at s = -9pi^2/4 ~ -22.2, scaled to -1.75 for diagram
+\node[font=\normalsize] at (-1.75,0) {$\times$};
+\node[below, font=\small] at (-1.75,-0.18) {$-\frac{9\pi^2}{4}$};
+
+%% dots indicating infinitely many more poles to the left
+\node[font=\large] at (-2.5,0) {$\cdots$};
+
+%% pole just outside contour (greyed) to suggest more enclosed as R grows
+\node[font=\normalsize, gray] at (-3.1,0) {$\times$};
+\node[below, font=\small, gray] at (-3.1,-0.18) {$-\frac{25\pi^2}{4}$};
+
+%% Point labels
+% B (upper right)
+\filldraw (0.7,2.2) circle (1.5pt);
+\node[right, font=\small] at (0.75,2.2) {$B \quad \gamma+iT$};
+
+% A (lower right)
+\filldraw (0.7,-2.2) circle (1.5pt);
+\node[right, font=\small] at (0.75,-2.2) {$A \quad \gamma-iT$};
+
+% C1 top of arc
+\filldraw (0,2.3) circle (1.5pt);
+\node[above right, font=\small] at (0,2.3) {$C_1$};
+
+% C2 leftmost point of arc
+\filldraw (-2.3,0) circle (1.5pt);
+\node[above left, font=\small] at (-2.3,0) {$C_2$};
+
+% C3 bottom of arc
+\filldraw (0,-2.3) circle (1.5pt);
+\node[below right, font=\small] at (0,-2.3) {$C_3$};
+
+% gamma tick
+\draw (0.7,0.07) -- (0.7,-0.07);
+\node[below right, font=\small] at (0.7,-0.1) {$\gamma$};
+
+% R label
+\draw[line width=1.0pt] (0,0) -- (-1.63, 1.63);
+\node[font=\normalsize] at (-0.65, 1.05) {$R$};
+
+\end{tikzpicture}
+\caption{Bromwich contour enclosing poles of $\frac{\cosh(x\sqrt{s})}{s\cosh(\sqrt{s})}$ at $s=0$ and $s=-(n+\frac{1}{2})^2\pi^2$, $n=0,1,2,\ldots$}
+\label{fig:bromwich_cosh}
+\end{wrapfigure}
+\\
+When $f(s)$ has infinitely many singularities, as in the case of $\frac{1}{s \sin s}$ or $\frac{\cosh(x\sqrt{s})}{s \cosh(\sqrt{s})}$, the same principle applies but the contour must be chosen with more care. The poles now accumulate along the negative real axis, and as $R \to \infty$ the expanding semicircular arc encloses more and more of them. The key requirement is that $R$ must be chosen at each stage so that the arc passes between consecutive poles and never through one. For $\frac{1}{s\sin s}$, whose poles lie at $s = n\pi$, this is achieved by taking $R = \left(n + \frac{1}{2}\right)\pi$, which ensures the arc always passes through a region where $|\sin s|$ is bounded away from zero, keeping the integrand well behaved on the arc. For $\frac{\cosh(x\sqrt{s})}{s\cosh(\sqrt{s})}$, whose poles lie at $s = -\left(n + \frac{1}{2}\right)^2\pi^2$, a similar choice of $R$ between consecutive poles is made.
+\\
+\\
+Provided the integrand decays sufficiently fast on the arc, Jordan's lemma still guarantees that the arc integral vanishes as $R \to \infty$, and so the inverse transform is again given by the sum of all residues. The difference is that this sum is now infinite, and the final answer is expressed as an infinite series. In the case of $\frac{1}{s\sin s}$ this yields a series of $\sinh$ terms, while for $\frac{\cosh(x\sqrt{s})}{s\cosh(\sqrt{s})}$ it yields a trigonometric series. In both cases the series can be shown to converge, and the result is a well-defined closed-form expression for $F(t)$.
+\\
+\\
+In summary, the modification required for infinitely many singularities is not a change in the underlying method but rather a more careful choice of contour at each stage, combined with the understanding that the residue sum becomes an infinite series whose convergence must be verified. \cite{widder1941,doetsch1974, TransformsTheory}
+\\
+\subsubsection{Example}
+Find $\mathcal{L}^{-1}\left\{\frac{\cosh(x\sqrt{s})}{s\cosh(\sqrt{s})}\right\}$ where $0<x<1$. As seen briefly in 'Laplace Transforms' \cite{TransformsTheory}, but expanded on below.
+\\
+Again like before the first step is to find all of the singularities, so we set the denominator of the function $f(s)=\frac{\cosh(x\sqrt{s})}{s\cosh(\sqrt{s})}$ equal to $0$. So 
+$$s\cosh\sqrt{s}=0$$ Which is zero when $s=0$ or $\cosh\sqrt{s}=0$. Dealing with $\cosh\sqrt{s}=0$: we need to find all values of $s$ where $\cosh\sqrt{s}=0$, Let $\sqrt{s}=u$ so we get $\cosh u=0$ then recall that $\cosh u=\frac{e^u+e^{-u}}{2}$ which means $\cosh u=0$ requires: $$e^u+e^{-u}=0\Rightarrow e^{2u}=-1$$ Now $-1=e^{i\pi+2k\pi i}$ for any integer $k$ so $$2u=i\pi+2k\pi i=(2k+1)\pi i\Rightarrow u=\frac{(2k+1)\pi i}{2}=\left( k+\frac{1}{2} \right)\pi i$$ Since $u=\sqrt{s}$ we have $s=u^2$
+$$s=\left(k+\frac{1}{2}\right)^2\pi^2i^2=-\left(k+\frac{1}{2}\right)^2\pi^2$$ For $k=0,1,...$ and $k=-1,-2,...$ these give the same set of values as the brackets have been squared. Writing $n=k+1$ for $k=0,1,...$ $$s_n=-\left(n-\frac{1}{2}\right)^2\pi^2, \ \ \ \ n=1,2,3,...$$ These are all real and negative. Since $\cosh\sqrt{s}$ has simple zeros at each $s_n$, and the factor $s$ does not vanish at any $s_n\neq0$, each $s_n$ is a simple pole. 
+\\
+So, the singularities of the function are $s=0$ and $s_n=-\left( n+\frac{1}{2} \right)^2\pi^2$ which are both simple poles. All poles lie on the negative real axis, which means choosing any $c>0$ places the Bromwich line to the right of all of them. 
+\\
+\\
+%%%%%%%%%%%%%%%%%
+We can now choose the Contour, for this we will use a sequence of closed contour $\Gamma_{m}$ Each $\Gamma_m$ consisting of 1. The Bromwich line segment from $\gamma-iR_m\to\gamma+iR_m$ 2. A large semicircular arc $C_m$with radius $R_m$ centred at the original closing to the left. Then radius is then chosen to be $$R_m=m^2\pi^2$$ Where $m$ is a positive integer. The reason for this specific choice is that the poles $s_n$ lie at $s_n=-(n-\frac{1}{2})^2\pi^2$. Choosing $R_m=m^2\pi^2$ ensures that the arc will pass between consecutive poles . 
+\\
+Now we need to show that the big arc vanishes, we need to show that as $m\to\infty$ $$\int_{C_m}\frac{e^{st}\cosh x\sqrt{s}}{s\cosh\sqrt{s}}ds\to0$$ 
+\\
+To show this we need t use the estimation lemma as seen in \ref{Eq3.1.7}. Here $\Gamma_{m}$ is a semi circle of radius $R_m=m^2\pi^2$ and the arc length of the semi circle is $\pi$ times the radius therefore $$L=\pi R_m=m^2\pi^3$$ 
+We need to find the maximum size of $\left|\frac{e^{st}\cosh x\sqrt{s}}{s\cosh \sqrt{s}}\right|$ on $\Gamma_m$ we do this by bounding each piece separately. 
+On the arc $\Gamma_m$, we are in the left half plane where $\Re(s)\leq0$ since $t>0$, $$|e^{st}|=e^{\Re(s)\cdot t}\leq e^{0\cdot t}=1$$
+Then on $\Gamma_m$ every point $|s|=R_m$, so $$\frac{1}{|s|}=\frac{1}{R_m}$$ For large $R_m$ both $\cosh x\sqrt{s}$ and $\cosh \sqrt{s}$ grow like exponentials, so we need to use the approximations $$\cosh(u)\approx \frac{e^{|u|}}{2} \ \ \ \ \text{for large }|u|$$ So with $|\sqrt{s}|=\sqrt{R_m}$ $$|\cosh x\sqrt{s}|\approx\frac{e^{x\sqrt{R_m}}}{2}$$ $$|\cosh \sqrt{s}|\approx\frac{e^{\sqrt{R_m}}}{2}$$ Therefore when combined the fraction gives $$\left|\frac{\cosh x\sqrt{s}}{\cosh\sqrt{s}}\right|\approx\frac{\frac{e^{x\sqrt{R_m}}}{2}}{\frac{e^{\sqrt{R_m}}}{2}}=e^{(x-1)\sqrt{R_m}}$$ 
+This is a crucial steps since $0<x<1$ we have that $x-1<0$ which means this ratio decays exponentially as $R_m\to\infty$. The condition $x<1$ is therefore essential. Now combining all three bounded pieces: 
+$$\left|\frac{e^{st}\cosh x\sqrt{s}}{s \cosh \sqrt{s}}\right|\leq 1\cdot\frac{1}{R_m}\cdot e^{(x-1)\sqrt{R_m}}=\frac{e^{(x-1)\sqrt{R_m}}}{R_m}=M$$ 
+Therefore the estimation lemma gives $$\left|\int_{\Gamma_m}\frac{e^{st}\cosh x\sqrt{s}}{s \cosh \sqrt{s}}ds\right|\leq M\cdot L=\frac{e^{(x-1)\sqrt{R_m}}}{R_m}\cdot \pi R_m=\pi e^{(x-1)\sqrt{R_m}}$$ then taking the limit, since $R_m=m^2\pi^2$ we have $\sqrt{R_m}=m\pi$ so $$\pi e^{(x-1)\sqrt{R_m}}=\pi e^{(x-1)\pi m}$$ 
+As $m\to\infty$ since $x-1<0$ the exponent $(x-1)m\pi\to -\infty$ therefore $\pi e^{(x-1)m\pi}\to0$ as $m\to\infty$. So its shown that 
+$$\int_{\Gamma_m}\frac{e^{st}\cosh x\sqrt{s}}{s \cosh \sqrt{s}}ds \to 0 \ \ \ \ \text{as } m\to\infty$$
+\\
+Next since its been shown that the large arc vanishes, the residue theorem gives $$\frac{1}{2\pi i}\oint_{\Gamma_m}\frac{e^{st}\cosh x\sqrt{s}}{s\cosh\sqrt{s}}ds= 2\pi i\sum_{\text{Poles inside } \Gamma_m}\operatorname{Res}\left[\frac{e^{st}\cosh x\sqrt{s}}{s\cosh\sqrt{s}}\right]$$ As $m\to\infty$ all poles are eventually enclosed giving $$F(t)=\operatorname{Res}_{s=0}+\sum^{\infty}_{n=1}\operatorname{Res}_{s=s_n}$$
+Now to proceed the residues need to be calculated, at $s=0$ there is a simple pole. So the residue formula for a simple formula is simply as shown in \ref{Eq3.1.9}, where 
+$$\operatorname{Res}_{s=0}=\lim_{s\to0}(s-0)\cdot\frac{e^{st}\cosh x\sqrt{s}}{s\cosh\sqrt{s}}$$ where the $s$ will cancel out leaving $$=\lim_{s\to0}\frac{e^{st}\cosh x\sqrt{s}}{\cosh\sqrt{s}}$$ Now it is clear to see the next step is substituting in $s=0$ $$\frac{e^0\cdot\cosh(x\cdot0)}{\cosh(0)}=\frac{1\cdot1}{1}=1$$ Therefore as all factors are well defined, $\operatorname{Res}_{s=0}=1$ \\ For $s_n=-\left(n-\frac{1}{2}\right)^2\pi^2$ each $s_n$ is a simple pole. So the formula for a simple pole is used again $$\operatorname{Res}_{s=s_n}=\lim_{s\to s_n}(s-s_n)\cdot\frac{e^{st}\cosh x\sqrt{s}}{s\cosh\sqrt{s}}$$ $$=\lim_{s\to s_n}\frac{e^{st}\cosh x\sqrt{s}}{s}\cdot\frac{s-s_n}{\cosh\sqrt{s}}$$ At this point it gets a bit more difficult, which requires \ref{Eq3.1.10}
+$$G(s)=e^{st}\cosh x\sqrt{s} \ \ \ \ H(s)=s\cosh\sqrt{s}$$ and use $$\operatorname{Res}_{s=s_n}=\frac{G(s_n)}{H'(s_n)}$$ To calculate $H'(s)$ we need to differentiate $H(s)=s\cosh \sqrt{s}$ with respect to $s$, therefore using the product rule and chain rule gives the following 
+\begin{align*}
+    H'(s)&=\cosh\sqrt{s}+s\cdot\frac{d}{ds}\cosh\sqrt{s} \\
+    \frac{d}{ds}\cosh\sqrt{s}&=\sinh\sqrt{s}\cdot\frac{1}{2\sqrt{s}} \\
+    \Rightarrow H'(s)&=\cosh\sqrt{s}+\frac{\sqrt{s}}{2}\sinh\sqrt{s}
+\end{align*}
+Now at $s=s_n$, we already know by definition that $\cosh\sqrt{s_n}=0$, so the first term will vanish $$H'(s)=\frac{\sqrt{s_n}}{2}\sinh\sqrt{s_n}$$ Since $s_n=-\left(n-\frac{1}{2}\right)^2\pi^2$, taking the square root gives $$\sqrt{s_n}=\left(n-\frac{1}{2}\right)\pi i$$ Which can also be written as $\frac{(2n-1)\pi i}{2}$. Now using the identity $\sinh(iy)=i\sin y$ with $y=(n-\frac{1}{2})\pi$ $$\sinh\sqrt{s_n}=\sinh\left(\frac{(2n-1)\pi i}{2}\right)=i\sin\left(\frac{(2n-1)\pi}{2}\right)$$ Now $\sin\left(\frac{(2n-1)\pi}{2}\right)=\sin(n\pi-\frac{\pi}{2})$. using the identity $\sin(n\pi-\theta)=(-1)^{n+1}\sin\theta$ $$\sin\left(n\pi-\frac{\pi}{2}\right)=(-1)^{n+1}\sin\frac{\pi}{2}=(-1)^{n+1}$$ Therefore $\sinh\sqrt{s_n}=i(-1)^{n+1}$ So using the formula $H'(s)=\frac{\sqrt{s_n}}{2}\sinh\sqrt{s_n}$ then becomes $$H'(s)=\frac{1}{2}\cdot\frac{(2n-1)\pi i}{2}\cdot i(-1)^{n+1}=\frac{(2n-1)\pi i^2(-1)^{n+1}}{4}$$ since $i^2=-1$ and then $-(-1)^{n+1}=(-1)^n$ we get $$H'(s_n)=\frac{(-1)^n(2n-1)\pi}{4}$$ Now that we have $H'(s_n)$ we can move onto $G(s_n)$, the numerator evaluated at $s=s_n$ is $$G(s_n)=e^{s_n t}\cosh(x\sqrt{s})$$ First for $e^{s_n t}$ substituting in $s_n=-(n-\frac{1}{2})^2\pi^2$ $$e^{s_nt}=e^{-(n-\frac{1}{2})^3\pi^2t}=e^{-\frac{(2n-1)^2 \pi^2 t}{4}}$$ For $\cosh(x\sqrt{s})$ using the identity: $\cosh(iy)=i\cos y$ with $y=x(n-\frac{1}{2})^2\pi^2$ $$\cosh(x\sqrt{s})=\cosh\left(\frac{(2n-1)\pi x i}{2}\right)=\cos\left(\frac{(2n-1)\pi x}{2}\right)$$ Now we have both $G(s_n)$ and $H'(s_n)$ we can calculate the full residue $$\operatorname{Res}_{s=s_n}=\frac{G(s_n)}{H'(s_n)}=\frac{e^{-\frac{(2n-1)^2 \pi^2 t}{4}}}{\frac{(-1)^n(2n-1)\pi}{4}}$$ which simplifies down to $$=\frac{4(-1)^n}{(2n-1)\pi}e^{-\frac{(2n-1)^2\pi^2t}{4}}\cos\left(\frac{(2n-1)\pi x}{2}\right)$$ So finally we can say that the residue at each simple pole $s_n$ is $$\operatorname{Res}_{s=s_n}\left[\frac{e^{st}\cosh x\sqrt{s}}{s\cosh\sqrt{s}}\right]=\frac{4(-1)^n}{(2n-1)\pi}e^{-\frac{(2n-1)^2\pi^2t}{4}}\cos\left(\frac{(2n-1)\pi x}{2}\right)$$ the final step is now summing all of the residues therefore after collecting the residue at $s=0$ and all of the simple pole residues and applying the Bromwich formula $$F(t)=1+\sum^{\infty}_{n=1}\frac{4(-1)^n}{(2n-1)\pi}e^{-\frac{(2n-1)^2\pi^2t}{4}}\cos\left(\frac{(2n-1)\pi x}{2}\right)$$
+\newpage
+
+
+
+
+
+\subsection{Problems With Various Methods}\label{4.1.6}
+The following problems use $x$ in the place of $t$ as to follow the textbooks notation. 
+\\
+\\
+\textbf{Problem 1}: From the 'Complex Variables' book \cite{RedBook}, Obtain the inverse Laplace transform of $\frac{1}{(s+\omega)^{2}}$. 
+\\
+\\
+We can use the Bromwich integral to find the inverse of our Laplace transform. So using \ref{3.3.1} the integral we use will be 
+\begin{equation}
+    F(x)=\frac{1}{2\pi i}\int^{\gamma+i\infty}_{\gamma-i\infty}f(s)e^{sx}ds
+\end{equation} 
+As $f(s)=\frac{1}{(s+\omega)^{2}}$. However, we cannot evaluate this directly along the vertical Bromwich line. Instead what we do is close the contour by adding a semi-circular arc $C_{R}$ to the left of the left, forming a closed contour $\Gamma$. 
+\\
+The reason the left is critical: On the arc $C_{R}$, we have $s=Re^{i\theta}$ for $\frac{\pi}{2}\leq\theta\leq\frac{3\pi}{2}$, so $\Re(s)=R\cos\theta\leq0$ This means: $$|e^{sx}|=e^{\Re(s)\cdot x}=e^{R\cos\theta\cdot x}$$ Since $\cos\theta\leq0$ for $\frac{\pi}{2}\leq\theta\leq\frac{3\pi}{2}$, and $x>0$, we get: $$|e^{sx}|\leq e^{0}=1$$ So $e^{sx}$ is bounder on the left arc. If we closed to the right instead, $\Re(s)>0$ and $e^{sx}$ would blow up, causing the method to fail. Our closed contour is therefore: $$\Gamma=\text{Bromwich line }+C_{R}$$
+\\
+We now need to apply the estimation lemma to show that the arc $\rightarrow$ 0. We need to show 
+\begin{equation}
+    \int_{C_{R}}\frac{e^{sx}}{(s+\omega)^{2}}ds\rightarrow0 \text{ as } R\rightarrow\infty
+\end{equation}
+using the estimation lemma in \ref{Eq3.1.7} where $C_{R}$ is a semicircle of radius $R$, so its arc length is $L=\pi R$. To then find $M$ we need to find the maximum of $\left|\frac{e^{sx}}{(s+\omega)^{2}}\right|$ on $C_{R}$. First we bound the denominator using the reverse triangle inequality: $$|s+\omega|\geq|s|-|\omega|= R-\omega$$ therefore $$|(s+\omega)^{2}|=|s+\omega|^{2}\geq(R-\omega)^{2}$$ which gives $$\frac{1}{|(s+\omega)^{2}|}\leq\frac{1}{(R-\omega)^{2}}$$ now for the numerator. Since $\Re(s)\leq c$ on the left arc: $$|e^{sx}|=e^{\Re(s)\cdot x}\leq e^{cx}$$ where $e^{cx}$ is constant as it doesn't depend on $R$. Combining these two bounds we get: 
+\begin{equation}
+    \left|\frac{e^{sx}}{(s+\omega)^{2}}\right|\leq\frac{e^{cx}}{(R-\omega)^{2}}=M
+\end{equation}
+Now we can apply the estimation lemma, 
+\begin{equation}
+    \left|\int_{C_{R}}\frac{e^{sx}}{(s+\omega)^{2}}ds\right|\leq M\cdot L=\frac{e^{cx}}{(R-\omega)^{2}}\cdot\pi R=\frac{\pi Re^{cx}}{(R-\omega)^{2}}
+\end{equation}
+taking the limit as $R\rightarrow\infty$: 
+\begin{equation}
+    \frac{\pi Re^{cx}}{(R-\omega)^{2}}=\frac{\pi e^{cx}\cdot\frac{1}{R}}{1-\frac{2\omega}{R}+\frac{\omega^{2}}{R^{2}}}\rightarrow\frac{0}{1}=0 \text{ as } R\rightarrow\infty
+\end{equation}
+So the arc integral vanishes completely as $R\rightarrow\infty$. 
+\\
+Since the arc vanishes, as $R\rightarrow\infty$ we have: 
+\begin{equation}
+    \oint_{\Gamma}\frac{e^{sx}}{(s+\omega)^{2}}ds=\int_{Br}\frac{e^{sx}}{(s+\omega)^{2}}ds+\int_{C_{R}}\frac{e^{sx}}{(s+\omega)^{2}}ds
+\end{equation}
+The term around $C_{R}$, Therefore 
+\begin{equation}
+    \oint_{\Gamma}\frac{e^{sx}}{(s+\omega)^{2}}ds=\int_{Br}\frac{e^{sx}}{(s+\omega)^{2}}ds
+\end{equation}
+this means we can evaluate the closed contour integral using the reside theorem and it will give us exactly the Bromwich integral we want. 
+\\
+Next we need to find the poles, so we need to find when the denominator of $\frac{e^{sx}}{(s+\omega)^{2}}$ equals zero. So setting $(s+\omega)^{2}=0\Rightarrow s+\omega=0 \Rightarrow s=-\omega$. This is a single pole at $s=-\omega$ but as the factor $(s+\omega)$ was squared this is a pole of order 2. Since $\omega>0$, this pole has a real part $-\omega<0$, meaning it lies to the left of the Bromwich line, so it is therefore enclosed by our contour $\Gamma$.
+\\
+For a pole of order 2 at $s=-\omega$, the residue formula is: 
+\begin{equation}
+    \operatorname{Res}_{s=-\omega}\left[\frac{e^{sx}}{(s+\omega)^{2}}\right]=\lim_{s\rightarrow -\omega}\frac{d}{ds}\left[(s+\omega)^{2}\cdot\frac{e^{sx}}{(s+\omega)^{2}}\right]
+\end{equation}
+As you can clearly see we will be able to cancel the $(s+\omega)^{2}$ terms and be left with $$\operatorname{Res}_{s=-\omega}=\lim_{s\rightarrow-\omega}\frac{d}{ds}[e^{sx}]$$ using the chain rule we can then complete the derivative $$\frac{d}{ds}[e^{sx}]=x\cdot e^{sx}$$ Now we can take the limit of this derivative as $s\rightarrow -\omega$ to determine the residues value $$\operatorname{Res}_{s=-\omega}\lim_{s\rightarrow-\omega}x\cdot e^{sx}=x\cdot e^{(-\omega)x}=xe^{-\omega x}$$ therefore the value of the residue is: 
+\begin{equation}
+    \operatorname{Res_{s=-\omega}}\left[\frac{e^{sx}}{(s+\omega)^{2}}\right]=xe^{-\omega x}
+\end{equation}
+Now that we have the pole we can apply the residue theorem \ref{Eq3.1.8}, Recall that the theorem states $\oint_{\Gamma}f(s)ds=2\pi i\sum_{\text{all poles inside }\Gamma}\operatorname{Res}$, and using the residue found above the theorem becomes: 
+\begin{equation}
+    \oint_{\Gamma}\frac{e^{sx}}{(s+\omega)^{2}}ds=2\pi i\cdot xe^{-\omega x}
+\end{equation}
+Now recall from earlier that 
+\begin{equation}
+     \oint_{\Gamma}\frac{e^{sx}}{(s+\omega)^{2}}ds=\int_{Br}\frac{e^{sx}}{(s+\omega)^{2}}ds
+\end{equation}
+and also recall that the Bromwich formula is 
+\begin{equation}
+    F(x)=\frac{1}{2\pi i}\int_{Br}\frac{e^{sx}}{(s+\omega)^{2}}ds
+\end{equation}
+then substituting in 
+\begin{equation}
+    F(x)=\frac{1}{2\pi i}\cdot\oint_{\Gamma}\frac{e^{sx}}{(s+\omega)^{2}}ds
+\end{equation} 
+Now using the result from the residue theorem we can get 
+\begin{equation}
+    F(x)=\frac{1}{2\pi i}\cdot2\pi i\cdot xe^{-\omega x} \ \ \ \ \Rightarrow F(x)=xe^{-\omega x}
+\end{equation}
+\\
+\textbf{Problem 2:} From the 'Complex Variables' book \cite{RedBook} 
+ Show the inverse Laplace transform of the following function 
+ \begin{equation}
+     f(s)=\frac{1}{\sqrt{s^2+\omega^2}}
+ \end{equation}
+$\omega>0$, is given by 
+\begin{equation}
+    F(x)=\frac{1}{\pi}\int^{\omega}_{-\omega}\frac{e^{ixr}}{\sqrt{\omega^2-r^2}}dr=\frac{2}{\pi}\int^{1}_{0}\frac{\cos(\omega x\rho)}{\sqrt{1-\rho^2}}d\rho
+\end{equation}
+\\
+This question is more difficult as in the previous example $f(s)$ had poles but here it has branch points which are where functions become multi-valued, meaning it doesn't have a single well defined value. Which means we cannot use the standard Bromwich semicircle, instead we need a specially designed contour which avoids said branch points entirely. There is also the problem of where to put the branch cut. 
+\\
+First we need to find the branch points for $\frac{1}{\sqrt{s^2+\omega^2}}$ so we set the denominator equal to zero: $$\sqrt{s^2+\omega^2}=0 \Rightarrow s^2+\omega^2=0 \Rightarrow s^2=-\omega^2 \Rightarrow s= \pm i\omega$$ So the branch points for $f(s)$ are \begin{equation}\label{Eq}
+    s=+i\omega, s=-i\omega
+\end{equation}
+In this case we will create a branch cut from $-i\omega\rightarrow+i\omega$ which will be fully contained within the contour as shown in figure \ref{fig:branch2}. 
+\\
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[scale=1.35]
+ 
+  \def\R{3.2}
+  \def\c{0.8}
+  \def\w{1.4}
+  \def\ep{0.13}
+  \def\gam{0.22}
+  \def\btop{3.098}
+ 
+  %% ── Axes ──────────────────────────────────────────────────────
+  \draw[axarr] (-\R-0.5,0) -- (\R+0.6,0)
+    node[right,font=\normalsize]{$\operatorname{Re}(s)$};
+  \draw[axarr] (0,-\R-0.5) -- (0,\R+0.6)
+    node[above,font=\normalsize]{$\operatorname{Im}(s)$};
+  \node[below left,font=\small] at (0,0){$O$};
+ 
+  \foreach \y/\lbl in {\w/{$i\omega$},-\w/{$-i\omega$}}{
+    \draw[black!35,line width=0.4pt](-0.07,\y)--(0.07,\y);
+    \node[left,font=\small] at (-0.12,\y){\lbl};
+  }
+  \draw[black!35,line width=0.4pt](\c,-0.07)--(\c,0.07);
+  \node[below right,font=\small] at (\c,-0.12){$c$};
+  \node[above left,font=\small,black!45] at (-0.12, \R){$iR$};
+  \node[below left,font=\small,black!45] at (-0.12,-\R){$-iR$};
+ 
+  %% ── STEP 1: Branch cut shading (drawn first, everything on top) 
+  \fill[black!10] (-\ep-0.03,-\w) rectangle (\ep+0.03,\w);
+ 
+  %% ── STEP 2: Fill the circle interiors with the SAME shading
+  %%    so they look continuous with the strip
+  \fill[black!10] (0, \w)  circle (\gam);
+  \fill[black!10] (0,-\w)  circle (\gam);
+ 
+  %% ── STEP 3: Large arc C_R ─────────────────────────────────────
+  \draw[black,line width=1.2pt,midarr=0.28]
+    (\c,\btop) arc ({atan2(\btop,\c)}:{atan2(-\btop,\c)+360}:\R);
+  \node[font=\small] at ({-\R*cos(28)},{\R*sin(28)+0.32}){$C_R$};
+ 
+  %% ── STEP 4: Bromwich line ─────────────────────────────────────
+  \draw[black,line width=1.5pt,midarr=0.52]
+    (\c,-\btop) -- (\c,\btop);
+  \node[right,font=\small] at (\c+0.12,2.40){$\mathcal{B}$};
+ 
+  %% ── STEP 5: Traversal lines ───────────────────────────────────
+  \draw[black,line width=1.4pt,midarr=0.50]
+    (\ep,{1.2225}) -- (\ep,{-1.2225});
+  \draw[black,line width=1.4pt,midarr=0.50]
+    (-\ep,{-1.2225}) -- (-\ep,{1.2225});
+ 
+  \draw[black, line width=1.4pt,
+    decoration={markings,
+      mark=at position 0.50 with {\arrow[scale=0.9]{Stealth}}},
+    postaction=decorate]
+    (0,\w) ++({-53.8}:\gam) arc (-53.8:233.8:\gam);
+ 
+  %% gamma_- outer arc: CCW from -53.8 to 233.8 (going over the top)
+  \draw[black, line width=1.4pt,
+    decoration={markings,
+      mark=at position 0.50 with {\arrow[scale=0.9]{Stealth[reversed]}}},
+    postaction=decorate]
+    (0,-\w) ++({53.8}:\gam) arc (53.8:-233.8:\gam);
+ 
+  %% ── Labels ────────────────────────────────────────────────────
+  \node[right,font=\small] at (\gam+0.12, \w+0.22){$\gamma_+$};
+  \node[right,font=\small] at (\gam+0.12,-\w-0.24){$\gamma_-$};
+ 
+  %% ── Radius indicator ──────────────────────────────────────────
+  \draw[black!25,line width=0.4pt]
+    (0,0) -- ({-\R*cos(50)},{\R*sin(50)});
+  \node[font=\small,black!40]
+    at ({-\R*cos(50)/2+0.05},{\R*sin(50)/2+0.18}){$R$};
+\end{tikzpicture}
+\caption{Contour $\Gamma$ for the inverse Laplace transform of
+$f(s)=1/\!\sqrt{s^2+\omega^2}$.
+Branch points lie at $s=\pm i\omega$; the branch cut (shaded)
+runs along the imaginary axis between them.
+The contour consists of: the Bromwich line $\mathcal{B}$;
+the large arc $C_R$, which vanishes as $R\to\infty$;
+the two sides of the branch cut traversal; and the small
+circles $\gamma_{\pm}$ about $\pm i\omega$,
+which vanish as their radii tend to zero.}
+\label{fig:branch2}
+\end{figure}
+\\
+Second, we will use $s=ir$ with $-\omega\leq r\leq\omega$ so $$s^2+\omega^2=(ir)^2+\omega^2=\omega^2-r^2\geq0$$ As you can see from figure \ref{fig:branch2} our contour $\Gamma$ is made up of 6 parts: \begin{enumerate}
+    \item Bromwich line $Br$: vertical line at $\Re(s)=c$ going upward
+    \item Large Arc $C_{R}$: nearly a full circle with radius of $R$ going counter clockwise, leaving a gap for the Br line. 
+    \item Right side of branch cut: going downward
+    \item Left side of branch cut: going upward
+    \item Small circle $\gamma_{+}$ around $s=+i\omega$ with radius $\epsilon$
+    \item Small circle $\gamma_{-}$ around $s=-i\omega$ with radius $\epsilon$
+\end{enumerate}
+Now to show that the large arc $C_{R}$ vanishes. On $C_{R}$, $|s|=R$ so we can say $$g(s)=\frac{1}{\sqrt{s^2+\omega^2}}$$ For Large R: $$|g(s)|=\frac{1}{|\sqrt{s^2+\omega^2}|}\approx\frac{1}{R}\rightarrow0 \text{ uniformly as } R\rightarrow\infty$$ Therefore then by Jordan's lemma \ref{Eq3.1.12} for the half plane, since $|g(s)|\to0$ uniformly and $x>0$: 
+\begin{equation}
+    \int_{C_R}\frac{e^{sx}}{\sqrt{s^2+\omega^2}}ds\to 0 \text{ as } R\to\infty
+\end{equation}
+which shows that the contour around $C_R$ goes to 0 as the radius $R$ becomes infinitely large. 
+\\
+Next we do something similar as above but with the two smaller circles $\gamma_{\pm}$ at the end of the branch cut, we need these two circles to vanish so:
+\\
+On the small circle $\gamma_{+}$ we parametrise by writing $s=i\omega$, we can write $s=i\omega+\epsilon e^{i\phi}$, where $\epsilon$ is the radius of the small circle, we want to show that: 
+\begin{equation}
+    \int_{\gamma_{+}}\frac{e^{sx}}{\sqrt{s^2+\omega^2}}ds\to0 \text{ as } \epsilon\to 0
+\end{equation}
+To do this we will need to use the estimation lemma \ref{Eq3.1.7} which will require finding a bound M on the size of the integrand and the arc length $L$ of $\gamma_{+}$, and then showing $M\cdot L\to 0$.
+\\
+We need to bound $\left|\frac{e^{sx}}{\sqrt{s^2+\omega^2}}\right|$ which we do by bounding the numerator and denominator separately. For the numerator; since $s=i\omega+\epsilon e^{i\phi}$, the real part of $s$ is: $$\Re(s)=\Re(i\omega+\epsilon e^{i\phi})=\epsilon\cos\phi$$ Therefore $$|e^{sx}|=e^{\Re(s)\cdot x}=e^{\epsilon x\cos\phi}$$ Since $\cos\phi\leq1$ for all $\phi$: $$|e^{sx}|\leq e^{\epsilon x}$$ For the denominator we will begin with $s^2+\omega^2$, as $s=i\omega+\epsilon e^{i\phi}$ $$s^2+\omega^2=(i\omega+\epsilon e^{i\phi})^2+\omega^2 = \epsilon e^{i\phi}(2i\omega +\epsilon e^{i\phi})$$ Taking the modulus and using $|e^{i\phi}|=1$ $$|s^2+\omega^2|=|\epsilon e^{i\phi}|\cdot|2i\omega+\epsilon e^{i\phi}|= \epsilon\cdot|2i\omega+\epsilon e^{i\phi}|$$ We now need to apply the reverse triangle inequality $$|2i\omega+\epsilon e^{i\phi}|\geq|2i\omega|-|\epsilon e^{i\phi}|=2\omega-\epsilon$$ which then gives us the lower bound $$|s^2+\omega^2|\geq \epsilon(2\omega-\epsilon)$$ Taking the square root $$|\sqrt{s^2+\omega^2}|\geq\sqrt{\epsilon(2\omega-\epsilon)}=\sqrt{\epsilon}\cdot\sqrt{2\omega-\epsilon}$$ 
+\\
+Now we can apply the estimation lemma \ref{Eq3.1.7}, as we can combine the bounds on numerator and denominator: 
+\begin{equation}
+    \left|\frac{e^{sx}}{\sqrt{s^2+\omega^2}}\right|\leq\frac{e^{\epsilon x}}{\sqrt{\epsilon}\cdot\sqrt{2\omega-\epsilon}}=M
+\end{equation}
+The estimation lemma then gives: $$\left|\int_{\gamma_{+}}\frac{e^{sx}}{\sqrt{s^2+\omega^2}}ds\right|\leq M\cdot L=\frac{e^{\epsilon x}}{\sqrt{\epsilon}\cdot\sqrt{2\omega-\epsilon}}\cdot2\pi\epsilon$$ to clean this up a bit we can collect the $\epsilon$ terms $$=\frac{2\pi\epsilon\cdot e^{\epsilon x}}{\sqrt{\epsilon}\cdot\sqrt{2\omega-\epsilon}}=\frac{2\pi\sqrt{\epsilon}\cdot e^{\epsilon x}}{\sqrt{2\omega-\epsilon}}$$ Now as in the estimation lemma we can take the limit as $\epsilon\to0$, therefore $$\lim_{\epsilon\to0}\frac{2\pi\sqrt{\epsilon}\cdot e^{\epsilon x}}{\sqrt{2\omega-\epsilon}}=\frac{2\pi\cdot 0 \cdot e^{0}}{\sqrt{2\omega}}$$ So the $\sqrt{\epsilon}$ in the numerator drives the whole expression to zero regardless of the other factors, so 
+\begin{equation}
+    \left|\int_{\gamma_{+}}\frac{e^{sx}}{\sqrt{s^2+\omega^2}}ds\right|\leq\frac{2\pi\sqrt{\epsilon}\cdot e^{\epsilon x}}{\sqrt{2\omega-\epsilon}}\to0 \text{ as } \epsilon\to0
+\end{equation}
+The same argument can then be used for the small circle $\gamma_{-}$ using $s=-i\omega+\epsilon e^{i\phi}$. So we have now showed that both of the small circles $\gamma_{\pm}$ aswell as the large arc $C_{R}$ vanish to zero. Now we move on to parametrising the branch cut. So we let $s=ir$ where $r$ runs from $-\omega$ to $\omega$ then: 
+$$ds=idr$$ $$s^2+\omega^2=(ir)^2+\omega^2=\omega^2-r^2$$ Since $|r|\leq\omega$ this is positive, so 
+\begin{equation}\label{Eq3.3.polar}
+\sqrt{s^2+\omega^2}=\sqrt{\omega^2-r^2}
+\end{equation}
+Now as the right side of the branch cut approaches $s=ir$ from $\Re(s)>0$ and is the direction is going downward (so $r$ goes from $+\omega$ to $-\omega$). $$\int_{RHS}=\int_{\gamma_{+}}\frac{e^{sx}}{\sqrt{s^2+\omega^2}}ds=\int^{-\omega}_{+\omega}\frac{e^{irx}}{\sqrt{\omega^2-r^2}}\cdot idr$$ We can then reverse the limits for this integral to have it going from $-\omega \text{ to }+\omega$ 
+\begin{equation}
+    =-i\int^{+\omega}_{-\omega}\frac{e^{irx}}{\sqrt{\omega^2-r^2}}dr
+\end{equation}
+Now the same needs to be done for the left side as $s=ir$ from $\Re(s)<0$. In comparison to the RHS the LHS approaches the cut from the left which means $\Re(s)\to0^-$, using the polar argument from \ref{Eq3.3.polar}, $\sqrt{s^2+\omega^2}$ will take the value of $-\sqrt{\omega^2-r^2}$ on this side which is opposite to the right side. therefore with the direction going upward, so $r$ goes from $-\omega$ to $+\omega$ $$\int_{LHS}=\int_{-\omega}^{+\omega}\frac{e^{irx}}{-\sqrt{\omega^2-r^2}}\cdot idr=-i\int^{+\omega}_{-\omega}\frac{e^
+{irx}}{\sqrt{\omega^2-r^2}}dr$$
+Now that we have both sides of the branch cuts contributions we can determine the total branch cuts value
+
+\begin{align}
+    \int_{cut \ total} &=\int_{LHS}+\int_{RHS} \nonumber\\
+    \nonumber\\
+    \int_{cut \ total} &=-i\int^{+\omega}_{-\omega}\frac{e^
+{irx}}{\sqrt{\omega^2-r^2}}dr+\left(-i\int^{+\omega}_{-\omega}\frac{e^
+{irx}}{\sqrt{\omega^2-r^2}}dr\right) \nonumber\\
+\nonumber\\
+\int_{cut \ total} &= -2i\int^{+\omega}_{-\omega}\frac{e^
+{irx}}{\sqrt{\omega^2-r^2}}dr \label{Eq3.3.cuts}
+\end{align}
+
+
+Recall from \ref{Eq3.1.8} that $\oint_{\Gamma}=2\pi i\sum\operatorname{Res}$ however since we have no contained poles within the contour the sum of residues will be equal to 0, which means $$\oint_{\Gamma}\frac{e^{sx}}{\sqrt{s^2+\omega^2}}ds=0$$ Then recall that the contour $\Gamma$ was made up of these parts:
+$$\oint_{\Gamma}=\int_{Br}+\int_{C_R}+\int_{\gamma_+}+\int_{\gamma_-}+\int_{cut \ total}$$ Due to the earlier use of the estimation lemma and Jordan's lemma we have shown that 
+$$\oint_{\Gamma}=\int_{Br}+\underbrace{\int_{C_R}}_{\to0}+\underbrace{\int_{\gamma_+}}_{\to0}+\underbrace{\int_{\gamma_-}}_{\to0}+\int_{cut \ total}$$ therefore we can see that $$\oint_{\Gamma}=\int_{Br}+\int_{cut \ total}\Rightarrow0=\int_{Br}+\int_{cut \ total}\Rightarrow\int_{Br}=-\int_{cut \ total}$$ then substituting in \ref{Eq3.3.cuts} $$\int_{Br}=-2i\int^{+\omega}_{-\omega}\frac{e^
+{irx}}{\sqrt{\omega^2-r^2}}dr$$ Now that we have the value of the Bromwich contour we can apply the Bromwich formula. $$F(x)=\frac{1}{2\pi i}\int_{Br}\frac{e^{sx}}{\sqrt{s^2+\omega^2}}ds=\frac{1}{2\pi i}\cdot 2i\int^{+\omega}_{-\omega}\frac{e^{irx}}{\sqrt{\omega^2-r^2}}dr$$ Which then simply cancels down to 
+\begin{equation}\label{3.3.ans1}
+    F(x)=\frac{1}{\pi}\int^{+\omega}_{-\omega}\frac{e^{irx}}{\sqrt{\omega^2-r^2}}dr
+\end{equation}
+This is one of the answers the question was looking for but there is also the Bessel function which will take a few extra steps to get to, first substitute $r=\omega\rho$, so $dr=\omega d\rho$ and when $r=\pm\omega, \rho=\pm1$. So $$F(x)=\frac{1}{\pi}\int^{+1}_{-1}\frac{e^{i\omega\rho x}}{\sqrt{\omega^2-\omega^2\rho^2}}\cdot \omega d\rho=F(x)=\frac{1}{\pi}\int^{+1}_{-1}\frac{e^{i\omega\rho x}}{\omega\sqrt{1-\rho^2}}\cdot\omega d\rho$$ $$=\frac{1}{\pi}\int^{+1}_{-1}\frac{e^{i\omega\rho x}}{\sqrt{1-\rho^2}}d\rho$$ Now we can split this into real and imaginary parts using $e^{i\omega\rho x}=\cos(\omega\rho x)+i\sin(\omega\rho x)$ 
+\begin{equation}
+    =\frac{1}{\pi}\int^{+1}_{-1}\frac{\cos(\omega\rho x)}{\sqrt{1-\rho^2}}d\rho+\frac{i}{\pi}\int^{+1}_{-1}\frac{\sin(\omega\rho x)}{\sqrt{1-\rho^2}}d\rho
+\end{equation}
+Due to the second integral being an odd function and integrating over a symmetric integral it will equal zero $$\frac{i}{\pi}\int^{+1}_{-1}\frac{\sin(\omega\rho x)}{\sqrt{1-\rho^2}}d\rho=0$$ Therefore 
+\begin{equation}
+    F(x)=\frac{1}{\pi}\int^{+1}_{-1}\frac{\cos(\omega\rho x)}{\sqrt{1-\rho^2}}d\rho=\frac{2}{\pi}\int^{1}_{0}\frac{\cos(\omega\rho x)}{\sqrt{1-\rho^2}}d\rho
+\end{equation}
+Which is exactly what the question asked for. 
+\\
+\\
+
+%Question 2: (From \cite{TransformsTheory}) Find $\mathcal{L}^{-1}\left\{ \frac{\cosh x\sqrt{s}}{s\cosh \sqrt{s}} \right\}$ where $0<x<1$
+%As the method has been shown alot already I will only explain the key steps for this problem. First step is to find the poles, the denominator is $s\cosh \sqrt{s}$ which will vanish at two types of points. $$s\cosh\sqrt{s}=0$$ Its cleasr that tghere is a simple pole at $s=0$ but for $cosh\sqrt{s}$ it is clear will give infinitely many poles: $$\cosh \sqrt{s}=\frac{e^{\sqrt{s}}+e^{-\sqrt{s}}}{2}=0$$ $$\frac{e^{\sqrt{s}}+e^{-\sqrt{s}}}{2}=0 \Rightarrow e^{2\sqrt{s}}=-1$$ this is done quickly by cancelling the 2, multiplying by $e^{-\sqrt{s}}$ we can then use the complex exponential identity so $$-1=e^{i\pi+2\pi ik} , k\in\mathbb{Z}$$ $$2\sqrt{s}=i\pi+2\pi ik \Rightarrow s=-(k+\frac{1}{2})^2 \pi^2$$ so the pole are at $$s_k=-(k+\frac{1}{2})^2 \pi^2, \ \ k=0, \pm1,\pm2,...$$ Now that we have all the poles 
+
+
+
+
+
+
+
+
+
+
+
+\subsection{Example Of Real Application}\label{jacobs}
+
+Jacobs \cite{Glass} uses the Laplace transform in his paper to analyse the relaxation processes 
+in glass-forming materials, however Jacob does not show much work or reasoning behind how he got such results, so the goal here is to use the methods developed in thesis to fill in the gaps Jacob didn't explain. Starting from a nonlinear integro-differential equation 
+for the correlation function $\varphi(t)$, which describes how a density fluctuation 
+in the material decays over time, he then takes the Laplace transform of the entire 
+equation and solves it algebraically for the transformed function $\tilde{\varphi}(p)$. 
+This converts what would be an extremely difficult differential equation to solve 
+directly in the time domain into a much more workable algebraic problem in the 
+$p$-domain, which was precisely the motivation for using the Laplace transform 
+described at the start of Chapter \ref{Sec3.2}. The result of this algebraic solution is
+
+\begin{equation}
+    \tilde{\varphi}(p) = \frac{-(p^2 + \gamma p + 1 - \lambda) \pm 
+    \left[(p^2 + \gamma p + 1 - \lambda)^2 + 4\lambda p(p+\gamma)\right]^{1/2}}
+    {2\lambda p}
+    \label{eq:jacobs_phi}
+\end{equation}
+\\
+where $\lambda$ and $\gamma$ are material parameters of the glass-forming system. 
+The $\pm$ sign means there are two potential solutions, so the first task is to 
+determine which one is physically correct. Once the correct $\tilde{\varphi}(p)$ 
+has been determined, we will recover $\varphi(t) $ by applying the Bromwich inversion 
+formula developed in Section \ref{Sec3.3}:
+
+\begin{equation}
+    \varphi(t) = \frac{1}{2\pi i}\int_{\gamma - i\infty}^{\gamma + i\infty} 
+    e^{pt}\tilde{\varphi}(p)\, dp
+\end{equation}
+\\
+The integral runs along a vertical line in the complex $p$-plane lying to the right 
+of all singularities of $\tilde{\varphi}(p)$. As established in Section \ref{Sec3.2}, 
+this line always exists provided the transform converges in some right half-plane, 
+which it does here since $\varphi(t)$ is a physically bounded correlation function. 
+The challenge is that this integral cannot be evaluated directly along the vertical 
+line, so we must close the contour and use the residue theorem and branch cut 
+method developed throughout Section \ref{Sec3.3}.
+\\
+\\
+The first step before any contour integration can be carried out is to determine 
+which sign in \eqref{eq:jacobs_phi} gives the physically correct solution. This 
+is done by examining the behaviour of $\tilde{\varphi}(p)$ for large $|p|$, since 
+by the initial value theorem for Laplace transforms the behaviour of $\tilde{\varphi}(p)$ 
+as $p \to \infty$ is directly related to the initial value $\varphi(0)$. 
+Specifically, if $\tilde{\varphi}(p) \sim c/p$ for large $p$ then $\varphi(0) = c$, 
+so the requirement $\varphi(0) = 1$ means we need $\tilde{\varphi}(p) \sim 1/p$.
+\\
+\\
+To extract this large-$p$ behaviour we factor $(p^2 + \gamma p + 1 - \lambda)$ 
+from inside the square root, giving
+
+\begin{align}
+    \left[(p^2+\gamma p+1-\lambda)^2 + 4\lambda p(p+\gamma)\right]^{1/2} 
+    &= (p^2+\gamma p+1-\lambda)
+    \left[1 + \frac{4\lambda p(p+\gamma)}{(p^2+\gamma p+1-\lambda)^2}
+    \right]^{1/2}
+\end{align}
+\\
+For large $p$ the fraction inside the brackets is small, so we apply the binomial 
+approximation $\sqrt{1+\varepsilon} \approx 1 + \frac{\varepsilon}{2}$ to get
+
+\begin{equation}
+    \approx (p^2+\gamma p+1-\lambda)
+    \left[1 + \frac{2\lambda p(p+\gamma)}{(p^2+\gamma p+1-\lambda)^2}\right]
+\end{equation}
+\\
+Substituting this back into \eqref{eq:jacobs_phi} with the positive sign, the 
+two copies of $(p^2 + \gamma p + 1 - \lambda)$ cancel in the numerator and we 
+obtain
+
+\begin{equation}
+    \tilde{\varphi}(p) \approx \frac{p + \gamma}{p^2 + \gamma p + 1 - \lambda}
+    \sim \frac{1}{p} \quad \text{as } p \to \infty
+\end{equation}
+\\
+This gives $\varphi(0^+) = 1$, which matches the required initial condition. 
+Testing the negative sign instead gives $\tilde{\varphi}(p) \sim -1/p$, which 
+would imply $\varphi(0^+) = -1$. Since $\varphi(t)$ is a correlation function 
+that must equal $1$ at $t = 0$ this can't be physically correct, so the positive sign 
+is chosen. The same choice of sign must then be maintained consistently for all 
+values of $p$ due to analytic continuation, essentially meaning we do not switch between the two 
+branches as $p$ varies.
+\\
+\\
+Before closing the contour we must identify all singularities of $\tilde{\varphi}(p)$, 
+since these determine both the shape of the contour and the method used to evaluate 
+the integral. As established in Section \ref{Sec3.3}, the Bromwich line must be placed to 
+the right of every singularity, and the contour is then closed to the left so that 
+all singularities are enclosed.
+\\
+\\
+There are two types of singularity to consider. First, there is a potential pole 
+at $p = 0$ coming from the explicit factor of $p$ in the denominator of 
+\eqref{eq:jacobs_phi}. Whether this is actually a pole or a removable singularity 
+depends on whether the numerator also vanishes at $p = 0$, and we will see that 
+this depends on the value of $\lambda$, leading directly to the phase 
+transition.
+\\
+\\
+Second, there are branch points wherever the square root in \eqref{eq:jacobs_phi} 
+vanishes, that is when
+
+\begin{equation}
+    (p^2 + \gamma p + 1 - \lambda)^2 + 4\lambda p(p+\gamma) = 0
+\end{equation}
+\\
+Expanding the left hand side:
+
+\begin{equation}
+    p^4 + 2\gamma p^3 + (\gamma^2 + 2 + 2\lambda)p^2 + 
+    2\gamma(1+\lambda)p + (1-\lambda)^2 = 0
+\end{equation}
+\\
+This quartic has four roots, giving four branch points. Jacobs shows that all four 
+lie in the left half-plane, specifically on the lines $\operatorname{Im}(p) = 0$ 
+and $\operatorname{Re}(p) = -\gamma/2$, and crucially that the resulting branch 
+cuts are of finite length. This finite length is important because it 
+means the branch cuts do not extend all the way to infinity, so the large arc 
+$C_R$ used to close the contour can always be chosen to avoid them entirely. 
+Since all singularities lie in the left half-plane, the Bromwich line 
+$\operatorname{Re}(p) = \gamma > 0$ lies safely to the right of all of them, 
+consistent with the half-plane convergence structure established in Section \ref{4.0.1}.
+\\
+\\
+With the singularities identified we now close the contour. Following exactly the 
+procedure of Section \ref{4.1.1}, we add a large semicircular arc $C_R$ of radius $R$ 
+to the left of the Bromwich line, forming a closed contour $\Gamma$. The reason 
+we close to the left rather than the right is the same as in all the previous 
+examples: for $t > 0$ the factor $e^{pt}$ decays exponentially when 
+$\operatorname{Re}(p) < 0$, which is the left half-plane, so the arc integral 
+will vanish there but would blow up if we closed to the right.
+\\
+\\
+To confirm the arc integral vanishes we apply Theorem \ref{Theorem:3.3.1}. From the large-$p$ 
+behaviour established in the sign choice argument, $\tilde{\varphi}(p) \sim 1/p$ 
+for large $|p|$, so
+
+\begin{equation}
+    \left|\tilde{\varphi}(p)\right| \leq \frac{M}{R} \quad \text{on } C_R
+\end{equation}
+\\
+for some constant $M > 0$. This is exactly the decay condition $|f(s)| < M/R^k$ 
+with $k = 1$ required by Theorem \ref{4.1.1}. Combined with $t > 0$, Jordan's lemma 
+from Section 3 then gives
+
+\begin{equation}
+    \int_{C_R} e^{pt}\tilde{\varphi}(p)\, dp \to 0 \quad \text{as } R \to \infty
+\end{equation}
+\\
+So the large arc contributes nothing and the inversion reduces entirely to the 
+contributions from the singularities enclosed by $\Gamma$, exactly as in the 
+worked examples of Section \ref{4.1.6}.
+\\
+\\
+The presence of branch points means we cannot simply apply the residue theorem 
+as in Problem 1 of Section \ref{4.1.6}, where the integrand had only poles. Instead we 
+must use the branch cut modification developed in Section \ref{4.1.4}. The reason is 
+that the square root in $\tilde{\varphi}(p)$ is not single-valued in the complex 
+plane: going around a branch point changes its sign, so the integrand is not 
+well-defined unless we introduce cuts to restrict the region of integration.
+\\
+\\
+Following Section \ref{4.1.4}, we introduce branch cuts along the finite segments of 
+the negative real axis where the branch points lie. The closed contour $\Gamma$ 
+is then replaced by a keyhole contour consisting of:
+
+\begin{enumerate}
+    \item The Bromwich line $\operatorname{Re}(p) = \gamma$, which is the original 
+    line of integration
+    \item The large arc $C_R$ closing to the left, whose contribution has just 
+    been shown to vanish
+    \item Two straight segments $C_+$ and $C_-$ running just above and just below 
+    each branch cut along the negative real axis, capturing the discontinuity in 
+    $\tilde{\varphi}(p)$ across the cut
+    \item Small circles $C_\epsilon$ of radius $\epsilon$ encircling each branch 
+    point, which vanish as $\epsilon \to 0$ by the same estimation lemma argument 
+    used in Section \ref{4.1.4}
+\end{enumerate}
+\\
+This is the same construction used in Section \ref{4.1.4} for the example 
+$\mathcal{L}^{-1}\{e^{-a\sqrt{s}}/s\}$, where a keyhole contour was needed for 
+exactly the same reason. The key difference here is that the cuts have finite 
+length rather than extending to $-\infty$, which simplifies the analysis since 
+the integration along the cut only runs between the two branch points nearest 
+the origin rather than to infinity.
+\\
+\\
+The contribution to the inversion comes from the discontinuity of $\tilde{\varphi}(p)$ 
+across the branch cut, just as in Section \ref{4.1.4} where the two sides of the cut 
+gave values that differed by a factor involving $\sin(a\sqrt{x})$. Here the 
+discontinuity comes from the square root changing sign.
+\\
+\\
+On the branch cut we write $p = -x + i0^+$ on the upper side $C_+$ and 
+$p = -x - i0^+$ on the lower side $C_-$, where $x > 0$ runs along the cut. 
+Substituting $p = -x$ into the discriminant:
+
+\begin{equation}
+    D(x) = (x^2 - \gamma x + 1 - \lambda)^2 + 4\lambda x(x - \gamma)
+    \label{eq:discriminant}
+\end{equation}
+\\
+This is the quantity under the square root evaluated on the negative real axis. 
+On the upper side $C_+$ the square root takes the value $+i\sqrt{|D(x)|}$ and 
+on the lower side $C_-$ it takes $-i\sqrt{|D(x)|}$, since the square root 
+changes sign across the cut. Carrying this through, and noting that the 
+denominator $2\lambda p = -2\lambda x$ picks up a sign change from $p = -x$, 
+the values of $\tilde{\varphi}$ on each side are:
+
+\begin{equation}
+    \tilde{\varphi}(-x+i0^+) = 
+    \frac{(x^2 - \gamma x + 1 - \lambda) - i\sqrt{|D(x)|}}{2\lambda x}
+\end{equation}
+
+\begin{equation}
+    \tilde{\varphi}(-x-i0^+) = 
+    \frac{(x^2 - \gamma x + 1 - \lambda) + i\sqrt{|D(x)|}}{2\lambda x}
+\end{equation}
+\\
+The real parts are identical on both sides and therefore cancel when we take 
+the difference, leaving only the imaginary part:
+
+\begin{equation}
+    \tilde{\varphi}(-x+i0^+) - \tilde{\varphi}(-x-i0^+) = 
+    \frac{-2i\sqrt{|D(x)|}}{2\lambda x} = \frac{-i\sqrt{|D(x)|}}{\lambda x}
+\end{equation}
+\\
+This is exactly the mechanism seen in Section \ref{4.1.4}, where the two sides of the 
+cut gave $+i\sqrt{x}$ and $-i\sqrt{x}$ respectively, and their difference 
+produced the non-trivial integrand. Here the same principle applies: it is 
+precisely the jump in $\tilde{\varphi}$ across the cut that produces a nonzero 
+contribution to the inversion integral. Accounting for the direction of integration 
+along $C_+$ and $C_-$ (the segment $C_+$ runs from $-\alpha$ to $0$, i.e. $x$ 
+decreasing, and $C_-$ runs from $0$ to $-\alpha$, i.e. $x$ increasing, so the 
+two directions introduce a relative sign), the total branch cut contribution is
+
+\begin{equation}
+    \frac{1}{\pi}\int_0^{\alpha} \frac{\sqrt{|D(x)|}}{\lambda x} e^{-xt}\, dx
+    \label{eq:branchcutintegral}
+\end{equation}
+\\
+where $\alpha > 0$ is the location of the branch point nearest the origin, which 
+is the endpoint of the cut. The integral only runs to $\alpha$ rather than to 
+infinity because the cuts have finite length, a direct consequence of Jacobs' 
+observation that the branch points lie at specific finite locations in the 
+left half-plane.
+\\
+\\
+We now split the analysis into the two physically distinct cases. When 
+$\lambda < 1$ we first check whether $p = 0$ is a pole or a removable 
+singularity by substituting $p = 0$ into the numerator of \eqref{eq:jacobs_phi}. 
+Since $|1-\lambda| = 1-\lambda$ when $\lambda < 1$:
+
+\begin{equation}
+    \text{numerator}\big|_{p=0} = -(1-\lambda) + |1-\lambda| = 
+    -(1-\lambda) + (1-\lambda) = 0
+\end{equation}
+\\
+The numerator vanishes at $p = 0$, which means it cancels the factor of $p$ in 
+the denominator. Therefore $p = 0$ is a removable singularity, not a 
+pole, and there are no poles inside $\Gamma$ at all. This is the same situation 
+as in the branch point example of Section \ref{4.1.4}, where the integrand had no poles 
+inside the keyhole contour and Cauchy's theorem gave zero for the total contour 
+integral. The same reasoning applies here:
+
+\begin{equation}
+    \oint_\Gamma e^{pt}\tilde{\varphi}(p)\, dp = 0
+\end{equation}
+\\
+Since the arc and small circle contributions all vanish, the Bromwich integral 
+must equal minus the branch cut integral. The inversion is therefore given 
+entirely by \eqref{eq:branchcutintegral}, with no residue contribution:
+
+\begin{equation}
+    \varphi(t) = \frac{1}{\pi}\int_0^{\alpha} 
+    \frac{\sqrt{|D(x)|}}{\lambda x}\, e^{-xt}\, dx
+\end{equation}
+\\
+To extract the large-$t$ behaviour we note that the factor $e^{-xt}$ decays 
+exponentially for all $x > 0$ and becomes increasingly concentrated near $x = 0$ 
+as $t$ grows. However since the cut only reaches down to $x = \alpha > 0$ and 
+does not include $x = 0$, the integral is dominated for large $t$ by the region 
+near the lower endpoint $x = \alpha$, which is the branch point closest to the 
+origin. Near this point the factor $e^{-xt}$ behaves like $e^{-\alpha t}$ to 
+leading order, and the remaining factors contribute a constant $C$. The 
+large-$t$ behaviour is therefore
+
+\begin{equation}
+    \boxed{\varphi(t) \sim Ce^{-\alpha t} \quad \text{as } t \to \infty, 
+    \quad \lambda < 1}
+    \label{eq:liquidphase}
+\end{equation}
+\\
+where $\alpha > 0$ is the location of the nearest branch point and $C$ is a 
+constant. The correlation function decays exponentially to zero: any initial 
+disturbance eventually relaxes completely and the system remains a 
+supercooled liquid. This is exactly equation (9) of Jacobs, and we 
+have recovered it directly from the Bromwich inversion method.
+\\
+\\
+When $\lambda > 1$ the analysis changes because the behaviour at $p = 0$ is 
+fundamentally different. With $|1-\lambda| = \lambda - 1$ the numerator at 
+$p = 0$ is now
+
+\begin{equation}
+    \text{numerator}\big|_{p=0} = -(1-\lambda) + (\lambda-1) = 
+    2(\lambda-1) \neq 0
+\end{equation}
+\\
+The numerator is nonzero at $p = 0$, which means the factor of $p$ in the 
+denominator is not cancelled. Therefore $\tilde{\varphi}(p)$ has a genuine 
+simple pole at $p = 0$. This pole lies inside the contour $\Gamma$ 
+since it is at the origin, which is to the left of the Bromwich line, so we 
+must include its residue contribution via the residue theorem of Section \ref{4.1.2}.
+\\
+\\
+Using the simple pole residue formula from equation \eqref{Eq3.1.8}, 
+which requires multiplying by $(p - 0) = p$ and taking the limit as $p \to 0$:
+
+\begin{align}
+    \operatorname{Res}_{p=0}\left[e^{pt}\tilde{\varphi}(p)\right] 
+    &= \lim_{p \to 0}\, p \cdot e^{pt} \cdot 
+    \frac{-(p^2+\gamma p+1-\lambda)+(\lambda-1)+O(p)}{2\lambda p} \notag \\
+    &= \lim_{p \to 0}\, e^{pt} \cdot 
+    \frac{2(\lambda-1) + O(p)}{2\lambda} = \frac{\lambda - 1}{\lambda}
+\end{align}
+\\
+The factor of $p$ in the residue formula cancels the $p$ in the denominator of 
+$\tilde{\varphi}$, leaving a clean limit. The residue is the constant 
+$(\lambda-1)/\lambda$, independent of $t$, because $e^{0 \cdot t} = 1$.
+\\
+\\
+By the residue theorem of Section \ref{4.1.2}, which states that the inversion equals 
+the sum of all residues of $e^{pt}\tilde{\varphi}(p)$ at poles inside $\Gamma$, 
+the full inversion is the sum of this residue and the branch cut integral:
+
+\begin{equation}
+    \varphi(t) = \frac{\lambda - 1}{\lambda} + 
+    \frac{1}{\pi}\int_0^{\alpha}\frac{\sqrt{|D(x)|}}{\lambda x}\,e^{-xt}\, dx
+\end{equation}
+\\
+The branch cut integral still decays exponentially as $t \to \infty$ by exactly 
+the same argument as in the liquid case, since the integrand contains $e^{-xt}$ 
+with $x \geq \alpha > 0$ throughout. Therefore as $t \to \infty$ the integral 
+vanishes and only the residue survives:
+
+\begin{equation}
+    \boxed{\varphi(t) \to \frac{\lambda-1}{\lambda} \quad 
+    \text{as } t \to \infty, \quad \lambda > 1}
+    \label{eq:solidphase}
+\end{equation}
+\\
+A permanent nonzero value persists at all times: the initial disturbance never 
+fully relaxes, and the system has frozen into a glassy solid. This is 
+equation (10) of Jacobs. The appearance of a pole at the origin is what 
+mathematically produces the frozen residual: a pole at $p = 0$ in the Laplace 
+domain always corresponds to a nonzero constant in the time domain, since 
+$\mathcal{L}^{-1}\{1/p\} = 1$.
+\\
+\\
+The entire physical transition between liquid and solid behaviour in Jacobs' 
+model is therefore encoded in whether $p = 0$ is a removable singularity or a 
+genuine pole of $\tilde{\varphi}(p)$, which in turn depends entirely on whether 
+$\lambda < 1$ or $\lambda > 1$. Collecting both cases, the long-time limit of 
+$\varphi(t)$ acts as an order parameter for the transition:
+
+\begin{equation}
+    \lim_{t \to \infty}\varphi(t) = 
+    \begin{cases} 
+        0 & \lambda < 1 \quad \text{(supercooled liquid)} \\[6pt] 
+        \dfrac{\lambda-1}{\lambda} & \lambda > 1 \quad \text{(glassy solid)} 
+    \end{cases}
+\end{equation}
+\\
+This changes continuously from zero at $\lambda = 1$, since 
+$(\lambda-1)/\lambda \to 0$ as $\lambda \to 1^+$, but its first derivative with 
+respect to $\lambda$ is discontinuous at $\lambda = 1$. This is the defining 
+signature of a second-order phase transition, and Jacobs identifies it 
+as the mathematical description of the transition from a supercooled liquid to 
+a glassy solid.
+\\
+\\
+At exactly $\lambda = 1$, neither case applies directly. The branch point 
+reaches the origin and the discriminant vanishes at $p = 0$, so that 
+$\tilde{\varphi}(p) \sim C/\sqrt{p}$ for small $p$. This is a branch point 
+singularity at the origin of exactly the type analysed in Section \ref{4.1.4}. By 
+the branch point inversion formula, a term $1/\sqrt{p}$ in the Laplace domain 
+corresponds to $1/\sqrt{\pi t}$ in the time domain, giving
+
+\begin{equation}
+    \varphi(t) \sim Ct^{-1/2} \quad \text{as } t \to \infty, \quad \lambda = 1
+\end{equation}
+\\
+This is the algebraic critical decay at the phase transition reported by Jacobs, 
+sitting between the exponential decay of the liquid phase and the frozen constant 
+of the solid phase. The full inversion has thus recovered all three parts 
+directly from the contour integration method developed in this chapter: the 
+branch cut structure of Section \ref{4.1.4} accounts for the finite-length cuts, the 
+removable singularity argument explains the pure liquid decay, the simple pole 
+residue of Section \ref{4.1.2} produces the frozen solid value, and the critical 
+algebraic decay at $\lambda = 1$ follows from the branch point analysis of 
+Section \ref{4.1.4}.
+
+
+
+
+
+
+
+

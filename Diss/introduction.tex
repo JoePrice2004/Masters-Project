@@ -1,0 +1,29 @@
+\chapter{Introduction}
+%What area of mathematics are we in?
+%What is the precise problem?
+%Why is it interesting?
+%What has already been done?
+%What gap does this thesis fill?
+%What exactly will be proved?
+%How is the thesis structured?
+
+
+This thesis sits at the intersection of complex analysis and applied mathematics, specifically in the areas of integral transforms and asymptotic approximation methods. The central theme running through both topics is that moving a problem into the complex plane, even when the original problem is completely real, allows for techniques that would simply not be available otherwise.
+\\
+\\
+The two problems covered and studied in this thesis are the inversion of the Laplace transform along with the asymptotic evaluation of complex integrals by method of steepest descent. The Laplace transform is one of the most widely and commonly used tools in applied mathematics and engineering, by converting differential equations into algebraic ones and creating a framework for studying linear systems. While computing the usual normal transform is relatively straightforward, however recovering the original function from its transform is considerably more subtle in how it requires full understanding of the process of complex contour integration. On the other hand the method of steepest descent is a technique which extracts the leading asymptotic behaviour of complex integrals when a large parameter is present. It usually arises naturally in problems where exact behaviour is unclear but large-parameter behaviour is what is physically relevant.
+\\
+\\
+Both problems are interesting for the same reason: They are both places in which complex analysis does something genuinely interesting. The Bromwich integral recovers a real function from a purely complex line integral, and the fact this works at all let alone that it can be evaluated cleanly by residue calculus, is a non-trivial consequence of Cauchy's theorem and the structure of holomorphic functions. The methods of steepest descent is equally as interesting, by deforming a contour through a singular special point and making a carefully chosen change of variables. An oscillatory complex integral turns out to be determined by local geometry of the integrand at just the one point. In both cases the power of the method doesn't come from computation alone but instead from understanding the structure of the problem. 
+\\
+\\
+The theory of the Laplace transform and its inversion is classical, with the complex inversion formula having been known since the work of Bromwich in the early twentieth century. Standard treatments of the subject, such as those found in 'Complex Variables' \cite{RedBook} and 'Laplace Transforms' \cite{TransformsTheory}, cover the residue-based inversion method and give worked examples for transforms with simple pole structure. The method of steepest descent likewise has a long history, originating in work by Riemann and later developed systematically by Debye, and is treated in detail in 'Complex Variables' as well as in the wider asymptotic analysis literature \cite{Asymptotic, Steepestdescent,Steepestorigin}.
+\\
+\\
+What is less thoroughly treated in standard texts and therefore what this thesis aims to address, is a self-contained development of both topics that will cover not just the standard cases but also the more technically demanding ones for example: branch point singularities requiring keyhole contours, transforms with infinitely many poles requiring careful control of the contour at each stage, and saddle points of higher order or at the boundary of the contour of integration. Standard references and examples tend to either treat these cases briefly or assume a level of background that makes the key skipped steps hard to follow to a reader encountering the material for the first time. This thesis aims to fill those gaps by developing each case carefully from first principles, with full justification of each and every step and worked examples chosen to illustrate the distinct features of each situation.
+\\
+\\
+Specifically, the following will hopefully be established in this thesis. For the inverse Laplace transform: the derivation of the Bromwich integral from the Fourier inversion formula; the reduction of the inversion problem to a residue calculation for the case of finitely many poles; the modification of the contour required when faced with branch points and the resulting integral representation of the inverse; and how to treat the infinitely-many-poles case, including the careful choice of contour radius and the convergence of the resulting residue series. For the method of steepest descent: the derivation of the general asymptotic formula for saddle points of arbitrary order, expressed in terms of the Gamma function along with the special case; the treatment of boundary saddle points and the factor of one half they contribute.
+\\
+\\
+The thesis is structured as follows. Chapter 3 opens with a self-contained collection of prerequisites from complex and real analysis, presented in the order in which they become relevant as a way of getting the reader up to speed with the knowledge they require to proceed, and also as something the reader can come back too when needed to understand some reasoning. Section \ref{Sec3.2} introduces the Laplace transform and establishes its region of convergence. Then developing the complex inversion formula and the Bromwich contour, before treating in turn the cases of finitely many poles, branch points, and infinitely many singularities, with worked examples throughout. Section \ref{Sec3.4} develops the method of steepest descent generally first and then showing a special case, therefore showing the general asymptotic formula and its application to examples. The thesis concludes with a summary of the main results and a discussion of natural directions for further work. 

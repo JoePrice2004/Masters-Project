@@ -1,0 +1,286 @@
+\chapter{The Method of Steepest Descent}\label{Sec3.4}
+
+The method of steepest descent, which is also commonly known as the saddle point method, is a technique for finding asymptotic approximations to integrals of the form
+\begin{equation}\label{Eq:steepest_general}
+    I(k) = \int_{C} f(z)\, e^{k\phi(z)}\, dz
+\end{equation}
+where $k$ is a large real parameter, $\phi(z)$ is an analytic function of the 
+complex variable $z$, $f(z)$ is a further analytic function, and $C$ is some 
+contour in the complex plane. The main idea is that as $k \to \infty$, the 
+factor $e^{k\phi(z)}$ becomes exponentially large near the maximum of 
+$\text{Re}(\phi(z))$ and exponentially small everywhere else. The entire integral is therefore controlled by a small neighbourhood of the point where $\text{Re}(\phi(z))$ is largest along the contour, and by deforming $C$ to pass through this point in a particular way the integral can be approximated to any desired order in $k$. \cite{RedBook,Asymptotic,Steepestdescent,Steepestorigin, bleistein1986,miller2006}
+
+\subsection{Saddle Points}
+
+The point $z_0$ is called a saddle point of $\phi$ if $\phi'(z_0) = 0$. Then more generally, suppose the first $n-1$ derivatives of $\phi$ all vanish at $z_0$, but the $n$-th derivative does not:$$\phi'(z_0) = \phi''(z_0) = \cdots = \phi^{(n-1)}(z_0) = 0, \qquad \phi^{(n)}(z_0) \neq 0$$Then the Taylor expansion of $\phi$ around $z_0$ begins at the $n$-th term, and the dominant term for correction is
+\begin{equation}\label{Eq:taylor_saddle}    \phi(z) - \phi(z_0) \approx \frac{(z-z_0)^n}{n!}\,\phi^{(n)}(z_0)
+\end{equation}
+Writing $\phi^{(n)}(z_0)$ in polar form as $\phi^{(n)}(z_0) = |\phi^{(n)}(z_0)|e^{i\alpha}$, this then becomes$$\phi(z) - \phi(z_0) \approx \frac{(z-z_0)^n}{n!}\,|\phi^{(n)}(z_0)|\,e^{i\alpha}$$The name saddle point arises because since $\phi(z)$ is analytic, $\text{Re}(\phi(z))$ is harmonic and therefore cannot attain a true maximum or minimum in the interior of its domain. Instead the critical points of $\text{Re}(\phi)$ are saddle points, where it increases in some directions and 
+decreases in others. \cite{RedBook, Asymptotic, Steepestdescent, Steepestorigin} 
+
+\subsection{The Steepest Descent Directions}
+
+Writing $z - z_0 = re^{i\theta}$ in polar form, where $r > 0$ is the distance from $z_0$ and $\theta$ is the direction of travel in the complex plane, the Taylor expansion \eqref{Eq:taylor_saddle} therefore becomes$$\phi(z) - \phi(z_0) \approx \frac{r^n}{n!}\,|\phi^{(n)}(z_0)|\,e^{i(\alpha + n\theta)}$$For $e^{k\phi(z)}$ to decay away from $z_0$ we require $\text{Re}(\phi(z) - \phi(z_0)) < 0$, that is, the above expression must be real and negative. Since $\frac{r^n}{n!}|\phi^{(n)}(z_0)|$ is always a positive real number, this condition requires $e^{i(\alpha + n\theta)} = -1$, which holds precisely when$$\alpha + n\theta = (2m+1)\pi, \qquad m = 0, 1, \ldots, n-1$$Solving for $\theta$ gives exactly $n$ steepest descent directions:
+\begin{equation}\label{Eq:descent_directions}
+    \theta = \frac{(2m+1)\pi - \alpha}{n}, \qquad m = 0, 1, \ldots, n-1
+\end{equation}
+These are the directions in which moving away from $z_0$ causes the integrand to decay most rapidly. \cite{RedBook,Asymptotic,Steepestdescent,Steepestorigin, olver1997}
+
+\subsection{The Change of Variables to Laplace Form}
+
+Once the contour $C$ has been deformed, using Cauchy's theorem, to pass through $z_0$ along one of the steepest descent directions $\theta$, we introduce the real substitution
+\begin{equation}\label{Eq:substitution}
+    \phi(z) - \phi(z_0) = -t, \qquad t \geq 0
+\end{equation}where $t$ starts at $0$ when $z = z_0$ and increases as we move away from $z_0$ along the deformed contour. The key point is that by construction of the steepest descent path, $\phi(z) - \phi(z_0)$ is real and negative along the contour, so this substitution is well defined and $t$ is a genuine non-negative real variable.
+\\
+Substituting \eqref{Eq:substitution} into $e^{k\phi(z)}$ gives$$e^{k\phi(z)} = e^{k[\phi(z_0) + (\phi(z) - \phi(z_0))]} = e^{k\phi(z_0)}\,e^{-kt}$$so the complicated complex exponential is replaced by a simple real decaying exponential $e^{-kt}$. Changing the integration variable from $z$ to $t$ via $dz = \frac{dz}{dt}\,dt$, the integral becomes
+\begin{equation}\label{Eq:laplace_form}
+    I(k) = e^{k\phi(z_0)}\int_0^\infty f(z(t))\,e^{-kt}\,\frac{dz}{dt}\,dt
+\end{equation}
+which is a standard Laplace-type integral in the variable $t$, amenable to asymptotic expansion for large $k$ via Watson's lemma. \cite{olver1997,Steepestdescent}
+\\
+To compute $\frac{dz}{dt}$ explicitly, we use the Taylor expansion \eqref{Eq:taylor_saddle} and the substitution \eqref{Eq:substitution} together:$$(z-z_0)^n \approx \frac{-n!\,t}{|\phi^{(n)}(z_0)|\,e^{i\alpha}}$$Taking the $n$-th root and selecting the branch corresponding to the descent direction $\theta$ gives $$z - z_0 \approx \left(\frac{n!\,t}{|\phi^{(n)}(z_0)|}\right)^{1/n} e^{i\theta}$$ Differentiating with respect to $t$:
+\begin{equation}\label{Eq:jacobian}
+    \frac{dz}{dt} \approx \frac{1}{n}\left(\frac{n!}{|\phi^{(n)}(z_0)|}
+    \right)^{1/n} t^{1/n - 1}\,e^{i\theta}
+\end{equation}
+
+\subsection{Extending the Upper Limit to Infinity}
+
+The integral \eqref{Eq:laplace_form} has been written with upper limit $\infty$, but in practice the contour may only extend to some finite point, so the upper limit in the $t$ variable is some finite value $T$ rather than $\infty$. The justification for replacing $T$ by $\infty$ is that the tail of the integral beyond $T$ is exponentially negligible compared to the leading term. to be precise, since $\phi(z) - \phi(z_0) = -t < 0$ along the descent path and $t$ grows as we move away from $z_0$, the factor $e^{-kt}$ decays exponentially for $t > T$. For large $k$ the contribution from $t \geq T$ is of order $e^{-kT}$, which is smaller than any power of $1/k$ and is therefore asymptotically negligible. The upper limit may therefore be extended to $\infty$ without affecting the asymptotic expansion to any order in $k$, and the estimation lemma \ref{Eq3.1.7} provides the rigorous justification for this step.
+
+\subsection{Interior and Boundary Saddle Points}
+
+The framework above assumes the saddle point $z_0$ lies in the interior of the deformed contour, so that the steepest descent path passes through $z_0$ from both sides and the Laplace-type integral \eqref{Eq:laplace_form} runs from $-\infty$ to $+\infty$ through $z_0$. In this case the leading order contribution is a full Gaussian integral$$\int_{-\infty}^{\infty} e^{-kt}\,dt$$and the asymptotic formula \eqref{Eq:steepest_result} applies directly.
+
+However, if $z_0$ is a \textit{boundary saddle point}, meaning it lies at an endpoint of the contour rather than in its interior, then the steepest descent path leaves $z_0$ in only one direction and the integral \eqref{Eq:laplace_form} runs from $0$ to $+\infty$ rather than from $-\infty$ to $+\infty$. In this case only half of the Gaussian integral contributes, and the leading order result is reduced by a factor of $\frac{1}{2}$. Concretely, for the standard case $n = 2$, $\beta = 1$ the formula \eqref{Eq:steepest_standard} becomes
+\begin{equation}\label{Eq:steepest_boundary}
+    I(k) \sim \frac{1}{2}\,f(z_0)\,e^{k\phi(z_0)}\,e^{i\theta}
+    \sqrt{\frac{2\pi}{k\,|\phi''(z_0)|}}
+    = f(z_0)\,e^{k\phi(z_0)}\,e^{i\theta}
+    \sqrt{\frac{\pi}{2k\,|\phi''(z_0)|}}
+    \qquad \text{as } k \to \infty
+\end{equation}
+It is therefore important when applying the method to identify whether the saddle point is interior or at a boundary, as the two cases give different prefactors. \cite{olver1997,bleistein1986}
+
+\subsection{The General Asymptotic Formula}
+
+We assume $f(z)$ behaves near $z_0$ as a power law of the form$$f(z) \sim f_0\,(z - z_0)^{\beta - 1}$$for some constants $f_0$ and $\beta$. This accommodates the case where $f$ has a branch point or zero at $z_0$. When $f$ is an ordinary analytic function with $\beta = 1$ this reduces to $f(z) \approx f_0 = f(z_0)$. Substituting the expression for $z - z_0$ gives $$f(z) \sim f_0\left(\frac{n!\,t}{|\phi^{(n)}(z_0)|}\right)^{(\beta-1)/n} e^{i\theta(\beta-1)}$$Collecting $f(z)$, $e^{-kt}$, and $\frac{dz}{dt}$ inside the integral, the powers of $t$ combine as $$\frac{\beta - 1}{n} + \frac{1}{n} - 1 = \frac{\beta}{n} - 1$$ and the phase factors combine as $e^{i\theta(\beta-1)}\cdot e^{i\theta} = e^{i\beta\theta}$. The integral \eqref{Eq:laplace_form} therefore becomes $$I(k) \sim e^{k\phi(z_0)}\cdot\frac{f_0\,e^{i\beta\theta}}{n}\left(\frac{n!}{|\phi^{(n)}(z_0)|}\right)^{\beta/n}\int_0^\infty t^{\beta/n - 1}\,e^{-kt}\,dt$$
+Evaluating the remaining integral using the Gamma function via the substitution $u = kt$:$$\int_0^\infty t^{\beta/n - 1}\,e^{-kt}\,dt = k^{-\beta/n}\int_0^\infty u^{\beta/n - 1}\,e^{-u}\,du = k^{-\beta/n}\,\Gamma\!\left(\frac{\beta}{n}\right)$$and so the general asymptotic formula for an interior saddle point is
+\begin{equation}\label{Eq:steepest_result}
+    I(k) \sim \frac{f_0\,(n!)^{\beta/n}\,e^{i\beta\theta}\,e^{k\phi(z_0)}\,
+    \Gamma\!\left(\frac{\beta}{n}\right)}{n\left(k\,|\phi^{(n)}(z_0)|\right)^{\beta/n}}
+    \qquad \text{as } k \to \infty
+\end{equation}
+For a boundary saddle point the right hand side of \eqref{Eq:steepest_result} 
+is multiplied by $\frac{1}{2}$. If there are multiple saddle points through 
+which the deformed contour passes, each contributes a term of this form and the 
+contributions are summed to give the full asymptotic expansion. \cite{RedBook,Asymptotic, Steepestdescent,Steepestorigin}
+
+\subsection{The Standard Case}
+
+The most commonly encountered situation is $n = 2$ and $\beta = 1$, where $z_0$ 
+is a simple saddle point and $f(z)$ is analytic and non-zero at $z_0$. In this 
+case $\Gamma(1/2) = \sqrt{\pi}$ and \eqref{Eq:steepest_result} reduces to
+\begin{equation}\label{Eq:steepest_standard}
+    I(k) \sim f(z_0)\,e^{k\phi(z_0)}\,e^{i\theta}
+    \sqrt{\frac{2\pi}{k\,|\phi''(z_0)|}}
+    \qquad \text{as } k \to \infty
+\end{equation}
+where $\theta$ is the angle of the steepest descent path through $z_0$, 
+determined by $\cos(2\theta + \alpha) < 0$ with $\alpha = \arg(\phi''(z_0))$.
+
+\subsection{Summary of the Method}
+
+In practice the method proceeds as follows. First, identify the saddle points 
+of $\phi(z)$ by solving $\phi'(z) = 0$ and determine the order $n$ of each. 
+Second, determine which saddle points the contour $C$ can be deformed through 
+without crossing any singularities of the integrand, using Cauchy's theorem to 
+justify the deformation, and identify whether each relevant saddle point is 
+interior or at a boundary of the contour. Third, at each relevant saddle point 
+find the steepest descent directions $\theta$ from \eqref{Eq:descent_directions}. 
+Fourth, apply the substitution $\phi(z) - \phi(z_0) = -t$ to convert the 
+integral to Laplace form \eqref{Eq:laplace_form}, verify that the tail beyond 
+any finite endpoint is exponentially negligible, and extend the upper limit to 
+$\infty$. Finally, apply \eqref{Eq:steepest_result} at each saddle point, 
+including the factor of $\frac{1}{2}$ for any boundary saddle point, and sum 
+the contributions to obtain the leading order asymptotic behaviour of $I(k)$ 
+as $k \to \infty$.
+
+
+
+\subsection{Problems}
+\textbf{Question 1:} From the 'Complex Variables' book \cite{RedBook}, Find the asymptotic behaviour as $k\to\infty$ of the integral 
+\begin{equation}
+    I(k)=\int^{\infty}_{-\infty}e^{k(iz-z^2)}
+\end{equation}
+First step is to identify the $\phi(z)$ and $f(z)$, therefore looking at the standard form $I(k)=\int_C f(z)e^{k\phi(z)}dz$ we can then see that $f(z)=1$ and $\phi(z)=iz-z^2$ 
+\\
+Now we can work out the saddlepoints, saddlepoints are where $\phi'(z)=0$ therefore the differential of $\phi(z)$ is $\phi'(z)=i-2z$, so by setting this to 0 we will then find the saddlepoint. $$i-2z=0 \Rightarrow z_0=\frac{i}{2}$$ So there is a saddlepoint at $z_0=\frac{i}{2}$ which lies on the imaginary axis. Now we can check the second derivate to determine whether it is a simple pole (n=2). $\phi''(z)=-2\neq0$. Since this in not equal to zero this is a simple saddlepoint of order $n=2$. 
+\\
+Next is to evaluate the saddlepoint as $\phi(z_0)$ is needed for the final formula. Substitute $z_0=\frac{i}{2}$ $$\phi(z_0)=i\cdot\left(\frac{i}{2}\right)-\left(\frac{i}{2}\right)^2=-\frac{1}{4}$$ So $e^{k\phi(z_0)}=e^{-\frac{k}{4}}$ this is the exponential factor which will be in final result. 
+\\
+Next what is needed is to find the steepest descent direction, therefore what is needed is to find the directions which to travel away from $z_0$ so that the integral decays. We can then write 
+\begin{equation}
+    \phi''(z_0)=-2=2e^{i\pi}
+\end{equation}
+So 
+\begin{equation}
+    |\phi''(z_0)|=2 \text{ and } \alpha=\arg(\phi''(z_0))=\pi
+\end{equation}
+Then the steepest descent directions for a simple saddlepoint $n=2$ come from the condition 
+\begin{equation}
+    \alpha+2\theta=(2m+1)\pi \ \ \ \ m=0,1
+\end{equation}
+Now we can substitute $\alpha=\pi$ 
+\begin{equation}
+    \pi+2\theta=(2m+1)\pi \Rightarrow 2\theta=2m\pi\Rightarrow \theta=m\pi
+\end{equation}
+
+
+So the two directions of descent are $\theta=0$ which points right along the real axis and $\theta=\pi$ which points left along the real axis, together these form a horizontal path through $z_0$, which makes sense as the steepest descent path here is the horizontal line $\Im(z)=\frac{1}{2}$. 
+\\
+The next step is to deform the contour, as the original contour is the real axis but we need it to pass through $z_0=\frac{i}{2}$ along the steepest descent path, which is the horizontal line 
+\begin{equation}
+    z=x+\frac{i}{2} \ \ \ \ \text{where } x\in(-\infty,\infty)
+\end{equation}
+\\
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[
+    scale=1.0,
+    >=Stealth,
+    arr/.style={
+        decoration={markings, mark=at position 0.5 with 
+        {\arrow[line width=1.2pt]{>}}},
+        postaction=decorate
+    },
+]
+
+% Axes
+\draw[->, line width=0.7pt] (-2.0,0) -- (2.0,0) 
+    node[right] {$\mathrm{Re}(z)$};
+\draw[->, line width=0.7pt] (0,-0.4) -- (0,2.0) 
+    node[above] {$\mathrm{Im}(z)$};
+
+% Original contour: real axis
+\draw[line width=1.5pt, arr, dashed] (-1.8,0) -- (1.8,0);
+\node[below, font=\small] at (-1.2,-0.12) {$C$};
+
+% Deformed contour: horizontal line at Im(z) = 1
+\draw[line width=1.5pt, arr] (-1.8,1.0) -- (1.8,1.0);
+\node[below, font=\small] at (-1.2,1.05) {$C'$};
+
+% Saddle point
+\filldraw (0,1.0) circle (2pt);
+\node[above left, font=\small] at (0,1.0) {$z_0 = \frac{i}{2}$};
+
+% Deformation arrow
+\draw[->, line width=0.8pt] (1.4,0.08) -- (1.4,0.92);
+\node[right, font=\small] at (1.45,0.5) {deform};
+
+% Origin
+\node[below left, font=\small] at (0,0) {$O$};
+
+\end{tikzpicture}
+\caption{Contour deformation for $I(k)$. The original contour $C$ along 
+the real axis is deformed to $C'$ passing through the saddle point $z_0 = i/2$.}
+\label{fig:steepest_contour}
+\end{figure}
+
+\\
+Then by Cauchy's theorem, since $f(z)e^{k\phi(z)}$ has no singularities we can freely deform the contour from the real axis to the horizontal line without changing the value of the integral 
+\\
+Now we can apply the substitution $\phi(z)-\phi(z_0)=-t$. Then verify this works with the deformed contour. Write $z=x+\frac{i}{2}$ so $z-z_0=x$. Then 
+\begin{equation}
+    \phi(z)-\phi(z_0)=\phi\left(x+\frac{i}{2}\right)-\phi\left(\frac{i}{2}\right)
+\end{equation}
+$$\phi\left(x+\frac{i}{2}\right)=i\left(x+\frac{i}{2}\right)-\left(x+\frac{i}{2}\right)^2=-\frac{1}{4}-x^2$$ Therefore $$\phi(z)-\phi(z_0)=-\frac{1}{4}-x^2-\left(-\frac{1}{4}\right)=-x^2$$ Therefore 
+\begin{equation}
+    \phi(z)-\phi(z_0)=-x^2
+\end{equation}
+Which is real and negative for all $x\neq0$ this confirms the contour is a valid steepest descent path setting $t=x^2$, so we have 
+\begin{equation}
+    e^{k\phi(z)}=e^{k\phi(z_0)}e^{-kx^2}
+\end{equation} 
+\\
+Now we can finally transform the integral, on the deformed contour $z=x+\frac{i}{2}$ we have $dz=dx$ the integral becomes 
+\begin{equation}
+    I(k)=\int^{\infty}_{-\infty}e^{k\phi(z_0)}e^{-kx^2}dx=e^{-\frac{k}{4}}\int^{\infty}_{\infty}e^{-kx^2}dx
+\end{equation}
+This is now in the form of a standard Gaussian integral. The saddlepoint is the interior, so there is no factor $\frac{1}{2}$. Now after evaluating this Gaussian integral using the standard result $\int^{\infty}_{-\infty}e^{-kx^2}dx=\sqrt{\frac{\pi}{k}}$ 
+\begin{equation}
+    I(k)\sim e^{-\frac{k}{4}}\sqrt{\frac{\pi}{k}}
+\end{equation}
+\\
+\\
+\textbf{Problem 2:} From the 'Complex Variables' book \cite{RedBook}, Use the method of steepest descent to find the leading asymptotic behaviour as $k\to\infty$ of 
+\begin{equation}
+    \int^{\infty}_{-\infty}\frac{te^{ik(\frac{t^3}{3}+t)}}{1+t^4}dt
+\end{equation}
+\\
+Again $I(k)=\int_Cf(z)e^{k\phi(z)}dz$ so it can be seen that $f(
+z)=\frac{z}{1+z^4}$ and $\phi(z)=i\left(\frac{z^3}{3}+z\right)$ therefore as the saddlepoints occur when $\phi'(z)=0$ $$\phi'(z)=(z^2+1)i=0\Rightarrow z^2=-1\Rightarrow z=\pm i$$ Both of these are simple saddlepoints since $\phi''(z)=2iz\neq0$ which confirms the order is $n=2$ 
+\\
+Now to evaluate the saddlepoints at both $z=\pm i$: 
+\\
+At $z_0=i$\\
+$\phi(i)=i\left(\frac{i^3}{3}+i\right)=i\left(\frac{2i}{3}\right)=\frac{-2}{3}$
+\\
+At $z_0=-i$\\
+$\phi(-i)=i\left(\frac{(-i)^3}{3}-i\right)=i\left(\frac{-2i}{3}\right)=\frac{2}{3}$
+\\
+Since $e^{k\phi(-i)}=e^{\frac{2k}{3}}$ grows exponentially as $k\to\infty$ the saddlepoint at $z=-i$ cannot lie on a valid steepest descent contour for any large positive $k$. Therefore only $z=+i$ is relevant. 
+\\
+$\phi''(i)=2i\cdot i=-2$ so $|\phi''(z_0)|=2$ and $\alpha=\arg(-2)=\pi$ therefore using \ref{Eq:descent_directions} using $$\alpha+2\theta=(2m+1)\pi\Rightarrow\pi+2\theta=(2m+1)\pi$$ $$\Rightarrow 2\theta=2m\pi\Rightarrow \theta=m\pi$$ where $m=0,1$ so $\theta=0,\pi$, the steepest descent path through $z_0=i$ is the horizontal line $\Im(z)=1$ so $z=x+i$ for $x\in(-\infty,\infty).$ 
+\\
+We then verify the deformation of the contour is valid. The poles of $f(z)=\frac{z}{1+z^4}$ are where $z^4=-1$ giving 
+\begin{equation}
+    z=e^{i\pi(2m+1)/4} \ \ \ \ \text{ where } m=0,1,2,3
+\end{equation}
+\begin{equation}
+    \Rightarrow z=\frac{\pm1\pm i}{\sqrt{2}}
+\end{equation}
+All four poles have $|\Im(z)|=\frac{1}{\sqrt{2}}<1$ so none of them lie between the the real axis and $\Im(z)=1$> There by Cauchy's theorem the contour can be shifted upwards without crossing a singularity so the deformation is valid. 
+\\
+Now verifying the steepest descent path: write $z=x+i$ so $z-z_0=x$ 
+\begin{equation}
+    \phi(z)-\phi(z_0)=i\left(\frac{(x+i)^3}{3}+(x+i)\right)-\left(\frac{-2}{3}\right)
+\end{equation}
+$(x+i)^3=x^3+3x^2i-3x-i$ $$\phi(z)-\phi(z_0)=i\left(\frac{x^3-3x}{3}+\frac{3x^2-i}{3}+x+i\right)+\frac{2}{3}$$ $$=\frac{ix^3}{3}-x^2-\frac{2}{3}+\frac{2}{3}=\frac{ix^3}{3}-x^2$$ For the steepest descent approximation, we need this to be real and negative near $z_0$. The $-x^2$ term will dominate when $x$ is small and is indeed real and negative. The imaginary term will only contribute as an oscillatory phase. therefore the path is a valid descent path. 
+\\
+Applying the standard case formula \ref{Eq:steepest_standard} with $n=2, \beta=1, f(z)$ analytic and nonzero at $z_0=i$, $f(z_0)=\frac{i}{2}$ using
+\begin{equation}
+    I(k)\sim f(z_0)e^{k\phi(z_0)}e^{i\theta}\sqrt{\frac{2\pi}{k|\phi''(z_0)|}} \ \ \ \ k\to\infty
+\end{equation} 
+its shown that 
+\begin{equation}
+    I(k)\sim \frac{i}{2}\cdot e^{\frac{-2k}{3}}\cdot1\sqrt{\frac{2\pi}{2k}}
+\end{equation}
+\begin{equation}
+    I(k)\sim \frac{i\sqrt{\pi}}{2\sqrt{k}}e^{\frac{-2k}{3}} \text{ as } k\to\infty
+\end{equation}
+\\
+\textbf{Problem 3:} From the 'Complex Variables' book \cite{RedBook} Show that for $0\leq\theta\leq\frac{\pi}{2}$ that $$\int^{\theta}_{0} e^{-k\sec x} dx \sim \sqrt{\frac{\pi}{2k}}e^{-k}$$ 
+As usual the first step is write it in standard for to evaluate, as $I(k)=\int_C f(z)e^{k\phi(z)}dz$ we can see again that $f(z)=1$ and by identifying $$e^{-k\sec x}=e^{k(-\sec x)}$$ so $\phi(z)=-\sec z$, and the original contour goes from $\theta=0$ to $\theta=\frac{\pi}{2}$. 
+Again a saddlepoint is $z_0$ where $\phi'(z_0)=0$. So we then differentiate $\phi(z)=-\sec z$, $$\phi'(z)=-\frac{d}{dz}\sec z=-\sec z \tan z$$ then by setting $\phi'(z)=0$ $$-\sec z \tan z=0$$ Since $\sec z=\frac{1}{\cos z}$ is never equal to zero we need $\tan z=0$ therefore $$\tan z=0 \ \text{ when } z=0,\pm\pi,\pm2\pi,...$$. 
+The only saddlepoint here is when $z_0=0$ as the rest are outside of our contours interval $[0,\frac{\pi}{2}]$, also note that $z_0=0$ will lie on the left side endpoint of the integration interval. 
+Next is to classify the saddlepoint, so at $z_0=0$ we compute $\phi(z_0)$ and $\phi''(z_0)$. $$\phi(0)=-\sec(0)=-\frac{1}{\cos(0)}=-1$$ Now the second derivative of $\phi(z)$ $$\phi''(z)=\frac{d}{dz}\phi(z)=\frac{d}{dz}(-\sec z \tan z)=-\sec z \tan^2z-\sec^3z$$
+At $z_0=0$ $\sec(0)=1$ and $\tan(0)=0$ so $$\phi''(0)=-(1)(0)^2-(1)^3=-1$$ It can then be seen that $\phi''(z_0)\neq0=-1$ which means the order of the saddlepoint is equal to $n=2$ and it is also real and negative which is what we need. 
+Now near the saddlepoint $z_0=0$ we can write $z=re^{i\theta}$ for small $r>0$ and direction angle $\theta$, the taylor expansion gives, 
+\begin{align*}
+\phi(z) &\approx\phi(0)+\frac{1}{2}\phi''(0)(z-0)^2=-1+\frac{1}{2}(-1)r^2e^{2i\theta} \\
+\\
+\phi(z) &\approx-1-\frac{r^2}{2}e^{2i\theta}
+\end{align*}
+for the steepest descent path we need $f(z)-f(0)$ to be real and negative so that $e^{k(\phi(z)-\phi(0))}$ decays away from $z_0$ which requires $\frac{r^2}{2}e^{2i\theta}$ to be real and negative. Since $-\frac{r^2}{2}<0$ we need $e^{2i\theta}$ to be real and positive.
+$$2\theta=0, \text{ or } 2\theta=2\pi \Rightarrow \theta=0,\pi$$ 
+The next part would normally be where we deform the contour however since our original contour runs along the positive real axis from $0\to\frac{\pi}{2}$, the steepest descent direction $\theta=0$ is already aligned with the original contour. This means there is no contour deformation needed as the original path of integration is the steepest descent path. 
+Along $\theta=0$ (the positive real axis) near $z_0=0$ $$\phi(z)\approx-1-\frac{r^2}{2}$$ So $e^{k\phi(z)}\approx e^{-k}\cdot e^{\frac{-kr^2}{2}}$, the factor $e^{\frac{-kr^2}{2}}$ decays like a Gaussian away from $r=0$ for large $k$. This confirms that for large $k$ the integrand is dominated by the region near $z=0$, and contributes from $x$ away from $0$ are exponentially small by comparison. 
+\\
+Since $z_0=0$ lies at the left endpoint of the contour rather than at an interior point, we only integrate over half of the steepest descent path, so from $z_0$ outward in the direction of $\theta=0$ rather than through $z_0$ in both directions. This means the final formula will acquire a factor of $\frac{1}{2}$.
+\\ 
+Now applying the standard case formula we get $$I(k)\sim \frac{1}{2}\cdot f(z_0)\cdot e^{k\phi(z_0)}\cdot e^{i\theta}\sqrt{\frac{2\pi}{k|\phi''(z_0)|}}$$
+as $f(z_0)=1$, $e^{k\phi(z_0)}=e^{-k}$ and $e^{i\theta}=1$ the formula then simplifies to 
+$$I(k)\sim\frac{1}{2}e^{-k}\sqrt{\frac{2\pi}{k}}\Rightarrow\sqrt{\frac{\pi}{2k}}e^{-k}$$

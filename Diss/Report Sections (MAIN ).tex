@@ -1,0 +1,93 @@
+\documentclass[12pt]{report}
+\usepackage{setspace}
+\onehalfspacing
+\usepackage{graphicx} % Required for inserting images
+\usepackage{amsmath}
+\usepackage{titlepic}
+\usepackage{bchart}
+\usepackage[english]{babel}
+\usepackage{blindtext}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{chngcntr}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{fullpage}
+\usepackage{color}
+\usepackage{url}
+\usepackage{xcolor}
+\usepackage{wrapfig,lipsum}
+\usepackage{enumitem}
+\usepackage{longtable}
+\usepackage{import}
+\usepackage{float}
+\floatstyle{boxed}
+\restylefloat{figure}
+\usepackage{sidecap}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{cite}
+\usepackage{adjustbox}
+\usepackage{siunitx}
+\usepackage{booktabs}
+\usepackage{tikz}
+\usepackage{subcaption}
+%\usepackage[sectionbib]{chapterbib}
+%\usepackage[backend=biber,refsection=section]{biblatex}
+\usepackage{array, boldline, rotating}% for thickhlines
+\usepackage{tabu}
+\usepackage{subfiles} % Best loaded last in the preamble
+%\usepackage[showframe]{geometry}
+%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{environ}
+\usepackage{etoolbox}
+\usepackage[
+    top=1in,
+    bottom=1in,
+    left=1.25in,
+    right=1.25in
+]{geometry}
+\usepackage{titlesec}
+\titlespacing*{\chapter}{0pt}{-40pt}{0pt}
+\titlespacing*{\section}{0pt}{0pt}{10pt}
+\usepackage{wrapfig}
+\newtheorem{theorem}{Theorem}[section]
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+
+
+
+\begin{document}
+%title page
+\include{Diss/Title Page}
+%table of contents
+\tableofcontents
+\addcontentsline{toc}{section}{Notation and Symbol Definitions}
+\include{Diss/notation table}
+%abstract
+\include{Diss/abstract}
+%introduction
+\include{Diss/introduction}
+%main maths sections
+\include{MATHS/prerequisite}
+\include{MATHS/InverseLaplace}
+\include{Diss/MATHS/SteepestDescent}
+%conclusion
+\include{Diss/conclusion}
+%acknowledgments
+\include{Diss/acknowledgments}
+%references
+\addcontentsline{toc}{chapter}{References}
+\bibliographystyle{IEEEtran}
+\bibliography{Diss/references}
+%appendix
+
+
+
+\end{document}
+
+
+
